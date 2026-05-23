@@ -81,15 +81,37 @@ The final checkpoint path should be:
 ```text
 third_party/sam2/checkpoints/sam2.1_hiera_large.pt
 ```
-### 6. Build COLMAP from Source
+### 6. Configure COLMAP
 
-COLMAP is included as a third-party submodule under:
+COLMAP is used as the external Structure-from-Motion (SfM) and Multi-View Stereo (MVS) reconstruction tool. You can either build COLMAP from source or download the official pre-built package.
+
+#### Option A: Download the pre-built package
+
+For Windows users, the official CUDA-enabled pre-built package can be downloaded from [here](https://github.com/colmap/colmap/releases/download/4.0.4/colmap-x64-windows-cuda.zip).
+
+After downloading and extracting the package, make sure `COLMAP.bat` or `colmap.exe` can be accessed from the command line.
+
+Test COLMAP with:
+
+```bash
+colmap -h
+```
+
+or, on Windows:
+
+```bash
+COLMAP.bat -h
+```
+
+#### Option B: Build from source
+
+The COLMAP source code is included as a third-party submodule under:
 
 ```text
 third_party/colmap
 ```
 
-The COLMAP source code is used for attribution and reproducibility. If you want to build COLMAP from source with CUDA support, please install the following system-level tools first:
+If you want to build COLMAP from source with CUDA support, make sure the following system-level tools are installed:
 
 ```text
 Visual Studio 2019 or newer with C++ build tools
@@ -99,42 +121,18 @@ Git
 VCPKG
 ```
 
-COLMAP compilation is not installed inside the `gcbreg` Conda environment. The Conda environment is used for the Python-based parts of this project, while COLMAP is compiled and used as an external executable.
-
-First, enter the project root directory and initialize the submodules:
+Initialize the submodule and build COLMAP with VCPKG:
 
 ```bash
 git submodule update --init --recursive
-```
-
-Then enter the COLMAP source directory:
-
-```bash
-cd third_party/colmap
-```
-
-Install VCPKG under the `third_party` directory:
-
-```bash
-cd ..
+cd third_party
 git clone https://github.com/microsoft/vcpkg.git
 cd vcpkg
 bootstrap-vcpkg.bat
-```
-
-Build COLMAP with CUDA support through VCPKG:
-
-```bash
 vcpkg install colmap[cuda,tests]:x64-windows
 ```
 
-After compilation, COLMAP can be tested with:
-
-```bash
-colmap -h
-```
-
-If `colmap` is not recognized, add the generated COLMAP executable directory to the system `PATH`, or call the executable using its full path.
+COLMAP is compiled and used as an external executable. It is not installed inside the `gcbreg` Conda environment.
 
 
 ## Acknowledgements
