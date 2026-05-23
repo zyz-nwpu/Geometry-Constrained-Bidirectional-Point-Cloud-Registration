@@ -45,10 +45,6 @@ If the CUDA extension fails to build during installation, the package can usuall
 
 Create a checkpoint folder inside `third_party/sam2`:
 
-```bash
-mkdir third_party/sam2/checkpoints
-```
-
 Download the checkpoint from [here](https://dl.fbaipublicfiles.com/segment_anything_2/092824/sam2.1_hiera_large.pt).
 
 Place the downloaded file under:
