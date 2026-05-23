@@ -58,3 +58,15 @@ The final checkpoint path should be:
 ```text
 third_party/sam2/checkpoints/sam2.1_hiera_large.pt
 ```
+
+
+
+
+
+## Acknowledgements
+
+This project uses several third-party tools and libraries. We thank the authors and contributors of the following projects:
+
+- [SAM 2](https://github.com/facebookresearch/sam2), which is used for semantic mask generation during the preprocessing stage.
+- [COLMAP](https://github.com/colmap/colmap), which is used for Structure-from-Motion (SfM) and Multi-View Stereo (MVS) reconstruction.
+
