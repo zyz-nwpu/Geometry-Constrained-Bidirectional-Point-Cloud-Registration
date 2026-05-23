@@ -126,6 +126,8 @@ bootstrap-vcpkg.bat
 vcpkg install colmap[cuda,tests]:x64-windows
 ```
 
+### 7. Dataset Structure
+
 
 ## Acknowledgements
 
