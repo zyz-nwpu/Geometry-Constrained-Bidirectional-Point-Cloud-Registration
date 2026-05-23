@@ -83,24 +83,18 @@ third_party/sam2/checkpoints/sam2.1_hiera_large.pt
 ```
 ### 6. Configure COLMAP
 
-COLMAP is used as the external Structure-from-Motion (SfM) and Multi-View Stereo (MVS) reconstruction tool. You can either build COLMAP from source or download the official pre-built package.
+COLMAP is used as the external Structure-from-Motion (SfM) and Multi-View Stereo (MVS) reconstruction tool. You can either download the official pre-built package or build it from source.
 
 #### Option A: Download the pre-built package
 
 For Windows users, the official CUDA-enabled pre-built package can be downloaded from [here](https://github.com/colmap/colmap/releases/download/4.0.4/colmap-x64-windows-cuda.zip).
 
-After downloading and extracting the package, make sure `COLMAP.bat` or `colmap.exe` can be accessed from the command line.
+After downloading and extracting the package, add the directory containing `colmap.exe` to the system `PATH` environment variable.
 
 Test COLMAP with:
 
 ```bash
 colmap -h
-```
-
-or, on Windows:
-
-```bash
-COLMAP.bat -h
 ```
 
 #### Option B: Build from source
@@ -111,7 +105,7 @@ The COLMAP source code is included as a third-party submodule under:
 third_party/colmap
 ```
 
-If you want to build COLMAP from source with CUDA support, make sure the following system-level tools are installed:
+To build COLMAP from source with CUDA support, make sure the following system-level tools are installed:
 
 ```text
 Visual Studio 2019 or newer with C++ build tools
@@ -121,7 +115,7 @@ Git
 VCPKG
 ```
 
-Initialize the submodule and build COLMAP with VCPKG:
+Build COLMAP with VCPKG:
 
 ```bash
 git submodule update --init --recursive
@@ -131,8 +125,6 @@ cd vcpkg
 bootstrap-vcpkg.bat
 vcpkg install colmap[cuda,tests]:x64-windows
 ```
-
-COLMAP is compiled and used as an external executable. It is not installed inside the `gcbreg` Conda environment.
 
 
 ## Acknowledgements
