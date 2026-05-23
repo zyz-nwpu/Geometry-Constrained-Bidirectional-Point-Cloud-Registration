@@ -1,4 +1,5 @@
 # Geometry-Constrained-Bidirectional-Registration
+[![Hits](https://hits.sh/github.com/zyz-nwpu/Geometry-Constrained-Bidirectional-Registration.svg?label=views)](https://hits.sh/github.com/zyz-nwpu/Geometry-Constrained-Bidirectional-Registration/)
 Official implementation of geometry-constrained bidirectional point cloud registration for thin, sheet-like heritage artifacts.
 
 
