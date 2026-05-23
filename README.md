@@ -1,5 +1,27 @@
 # Geometry-Constrained-Bidirectional-Registration
-[![Hits](https://hits.sh/github.com/zyz-nwpu/Geometry-Constrained-Bidirectional-Registration.svg?label=views)](https://hits.sh/github.com/zyz-nwpu/Geometry-Constrained-Bidirectional-Registration/)
+
+<p align="center">
+  <a href="https://github.com/zyz-nwpu/Geometry-Constrained-Bidirectional-Registration">
+    <img src="https://img.shields.io/github/stars/zyz-nwpu/Geometry-Constrained-Bidirectional-Registration?style=social" alt="GitHub stars">
+  </a>
+  <a href="https://github.com/zyz-nwpu/Geometry-Constrained-Bidirectional-Registration/fork">
+    <img src="https://img.shields.io/github/forks/zyz-nwpu/Geometry-Constrained-Bidirectional-Registration?style=social" alt="GitHub forks">
+  </a>
+  <a href="https://github.com/zyz-nwpu/Geometry-Constrained-Bidirectional-Registration/watchers">
+    <img src="https://img.shields.io/github/watchers/zyz-nwpu/Geometry-Constrained-Bidirectional-Registration?style=social" alt="GitHub watchers">
+  </a>
+</p>
+
+<p align="center">
+  <a href="https://hits.sh/github.com/zyz-nwpu/Geometry-Constrained-Bidirectional-Registration/">
+    <img src="https://hits.sh/github.com/zyz-nwpu/Geometry-Constrained-Bidirectional-Registration.svg?label=views" alt="Repository views">
+  </a>
+  <img src="https://img.shields.io/github/issues/zyz-nwpu/Geometry-Constrained-Bidirectional-Registration" alt="GitHub issues">
+  <img src="https://img.shields.io/github/license/zyz-nwpu/Geometry-Constrained-Bidirectional-Registration" alt="License">
+  <img src="https://img.shields.io/github/last-commit/zyz-nwpu/Geometry-Constrained-Bidirectional-Registration" alt="Last commit">
+  <img src="https://img.shields.io/github/repo-size/zyz-nwpu/Geometry-Constrained-Bidirectional-Registration" alt="Repo size">
+</p>
+
 Official implementation of geometry-constrained bidirectional point cloud registration for thin, sheet-like heritage artifacts.
 
 
