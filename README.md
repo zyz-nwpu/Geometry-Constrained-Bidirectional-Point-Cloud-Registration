@@ -54,7 +54,7 @@ python -c "import torch; print(torch.__version__); print(torch.version.cuda); pr
 git submodule update --init --recursive
 ```
 
-### 4. Install the required third-party segmentation package
+### 4. Install the required SAM2 package
 
 ```bash
 cd third_party/sam2
