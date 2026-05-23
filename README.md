@@ -62,8 +62,6 @@ pip install -e .
 cd ../..
 ```
 
-If the CUDA extension fails to build during installation, the package can usually still be used for mask prediction, although some optional post-processing functions may be limited.
-
 ### 5. Prepare the checkpoint file
 
 Create a checkpoint folder inside `third_party/sam2`:
