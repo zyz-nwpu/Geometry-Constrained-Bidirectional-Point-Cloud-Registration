@@ -17,7 +17,7 @@ This repository contains the implementation and project materials for geometry-c
 
 Project page:
 
-**https://zyz-nwpu.github.io/Geometry-Constrained-Bidirectional-Registration/#results**
+**https://zyz-nwpu.github.io/Geometry-Constrained-Bidirectional-Registration**
 
 ## Highlights
 
