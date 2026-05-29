@@ -356,5 +356,19 @@
         Geometry-Constrained Bidirectional Point Cloud Registration for Thin Cultural Heritage Artifacts
       </footer>
     </div>
+    <script>
+      const playVideos = () => {
+        document.querySelectorAll("video").forEach((video) => {
+          video.muted = true;
+          video.loop = true;
+          video.play().catch(() => {});
+        });
+      };
+
+      window.addEventListener("load", playVideos);
+      document.addEventListener("visibilitychange", () => {
+        if (!document.hidden) playVideos();
+      });
+    </script>
   </body>
 </html>
