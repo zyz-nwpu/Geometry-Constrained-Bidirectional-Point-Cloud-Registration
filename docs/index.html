@@ -9,12 +9,12 @@
       :root {
         color-scheme: light;
         --text: #1f2328;
-        --muted: #59636e;
-        --subtle: #6e7781;
-        --line: #d8dee4;
+        --muted: #57606a;
+        --line: #d0d7de;
         --soft: #f6f8fa;
-        --link: #0969da;
-        --accent: #0f766e;
+        --blue: #0969da;
+        --dark: #24292f;
+        --green: #1a7f64;
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
       }
 
@@ -30,11 +30,10 @@
         margin: 0;
         background: #fff;
         color: var(--text);
-        font-size: 16px;
       }
 
       a {
-        color: var(--link);
+        color: var(--blue);
         text-decoration: none;
       }
 
@@ -42,98 +41,100 @@
         text-decoration: underline;
       }
 
-      .page {
-        width: min(1080px, calc(100% - 36px));
+      .container {
+        width: min(980px, calc(100% - 32px));
         margin: 0 auto;
       }
 
       header {
-        padding: 58px 0 30px;
+        padding: 52px 0 24px;
         text-align: center;
       }
 
       h1 {
-        max-width: 980px;
+        max-width: 940px;
         margin: 0 auto;
-        color: #111827;
         font-family: Georgia, "Times New Roman", serif;
-        font-size: clamp(2rem, 5vw, 4.15rem);
-        font-weight: 700;
+        font-size: clamp(2rem, 4.8vw, 3.85rem);
         line-height: 1.08;
         letter-spacing: 0;
+        color: #111827;
       }
 
       .authors {
-        margin: 22px auto 0;
-        color: var(--link);
+        margin: 22px 0 0;
         font-size: 1.08rem;
-        line-height: 1.7;
+        line-height: 1.65;
       }
 
-      .affiliation {
-        margin: 6px auto 0;
+      .affiliation,
+      .note {
+        margin: 6px 0 0;
         color: var(--muted);
-        font-size: 1rem;
-      }
-
-      .venue {
-        margin: 14px auto 0;
-        color: var(--text);
-        font-weight: 650;
+        line-height: 1.6;
       }
 
       .links {
         display: flex;
-        flex-wrap: wrap;
         justify-content: center;
+        flex-wrap: wrap;
         gap: 10px;
-        margin-top: 24px;
+        margin-top: 22px;
       }
 
-      .pill {
+      .button {
+        min-height: 38px;
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        min-height: 38px;
         border-radius: 999px;
         padding: 0 16px;
+        background: var(--dark);
         color: #fff;
-        background: #24292f;
-        font-size: 0.95rem;
         font-weight: 650;
+        font-size: 0.95rem;
       }
 
-      .pill:hover {
+      .button:hover {
+        background: #3b434d;
         text-decoration: none;
-        background: #3b424a;
       }
 
-      .pill.secondary {
-        background: var(--accent);
+      .button.primary {
+        background: var(--green);
       }
 
-      .pill.secondary:hover {
-        background: #115e59;
+      .button.primary:hover {
+        background: #176d56;
       }
 
       .teaser {
-        padding: 18px 0 36px;
+        padding: 22px 0 34px;
       }
 
-      .teaser video {
-        width: 100%;
-        display: block;
-        aspect-ratio: 16 / 8.4;
-        object-fit: contain;
+      .video-frame {
+        overflow: hidden;
         border: 1px solid var(--line);
         border-radius: 6px;
         background: var(--soft);
       }
 
+      video {
+        width: 100%;
+        display: block;
+        background: var(--soft);
+      }
+
+      .teaser video {
+        aspect-ratio: 16 / 8.6;
+        object-fit: contain;
+      }
+
       .caption {
-        max-width: 920px;
-        margin: 14px auto 0;
+        max-width: 860px;
+        margin: 12px auto 0;
         color: var(--muted);
+        font-size: 0.96rem;
         line-height: 1.65;
         text-align: center;
       }
@@ -145,79 +146,78 @@
 
       h2 {
         margin: 0 0 18px;
-        color: #111827;
         font-family: Georgia, "Times New Roman", serif;
-        font-size: clamp(1.55rem, 3vw, 2.2rem);
-        font-weight: 700;
+        font-size: clamp(1.5rem, 2.8vw, 2.05rem);
+        line-height: 1.15;
         text-align: center;
-        letter-spacing: 0;
+        color: #111827;
       }
 
       .abstract {
-        max-width: 900px;
+        max-width: 880px;
         margin: 0 auto;
-        color: var(--text);
-        line-height: 1.75;
+        font-size: 1rem;
+        line-height: 1.78;
         text-align: justify;
       }
 
-      .results-grid {
+      .results {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 18px;
       }
 
+      figure {
+        margin: 0;
+      }
+
       .result-card {
+        overflow: hidden;
         border: 1px solid var(--line);
         border-radius: 6px;
-        overflow: hidden;
         background: #fff;
       }
 
       .result-card video {
-        width: 100%;
-        display: block;
         aspect-ratio: 16 / 9;
         object-fit: contain;
-        background: var(--soft);
       }
 
-      .result-card figcaption {
+      figcaption {
         display: flex;
         align-items: center;
         justify-content: space-between;
         gap: 12px;
         min-height: 46px;
-        margin: 0;
         padding: 10px 12px;
         border-top: 1px solid var(--line);
         color: var(--muted);
         font-size: 0.94rem;
       }
 
-      .result-card strong {
+      figcaption strong {
         color: var(--text);
       }
 
-      .method-points {
+      .method {
         display: grid;
         grid-template-columns: repeat(3, minmax(0, 1fr));
         gap: 14px;
       }
 
-      .method-points article {
-        padding: 18px;
+      .method article {
+        padding: 16px;
         border: 1px solid var(--line);
         border-radius: 6px;
         background: var(--soft);
       }
 
-      .method-points h3 {
+      .method h3 {
         margin: 0 0 8px;
         font-size: 1rem;
       }
 
-      .method-points p {
+      .method p {
         margin: 0;
         color: var(--muted);
         line-height: 1.6;
@@ -226,26 +226,21 @@
       footer {
         padding: 28px 0 44px;
         border-top: 1px solid var(--line);
-        color: var(--subtle);
+        color: var(--muted);
+        font-size: 0.92rem;
         text-align: center;
-        font-size: 0.94rem;
       }
 
-      @media (max-width: 760px) {
+      @media (max-width: 720px) {
         header {
-          padding-top: 38px;
-        }
-
-        .results-grid,
-        .method-points {
-          grid-template-columns: 1fr;
+          padding-top: 36px;
         }
 
         .links {
           display: grid;
         }
 
-        .pill {
+        .button {
           width: 100%;
         }
 
@@ -253,7 +248,12 @@
           text-align: left;
         }
 
-        .result-card figcaption {
+        .results,
+        .method {
+          grid-template-columns: 1fr;
+        }
+
+        figcaption {
           align-items: flex-start;
           flex-direction: column;
         }
@@ -261,90 +261,92 @@
     </style>
   </head>
   <body>
-    <div class="page">
+    <div class="container">
       <header>
         <h1>Geometry-Constrained Bidirectional Point Cloud Registration for Thin Cultural Heritage Artifacts</h1>
-        <p class="authors">Ziyang Zhang</p>
+        <p class="authors"><a href="https://github.com/zyz-nwpu">Ziyang Zhang</a></p>
         <p class="affiliation">Northwestern Polytechnical University</p>
-        <p class="venue">Project Page</p>
+        <p class="note">Project page and visual results</p>
         <nav class="links" aria-label="Project links">
-          <a class="pill secondary" href="#results">Results</a>
-          <a class="pill" href="https://github.com/zyz-nwpu/Geometry-Constrained-Bidirectional-Registration">Code</a>
-          <a class="pill" href="https://github.com/zyz-nwpu/Geometry-Constrained-Bidirectional-Registration#readme">README</a>
+          <a class="button primary" href="#results">Results</a>
+          <a class="button" href="https://github.com/zyz-nwpu/Geometry-Constrained-Bidirectional-Registration">Code</a>
+          <a class="button" href="https://github.com/zyz-nwpu/Geometry-Constrained-Bidirectional-Registration#readme">README</a>
         </nav>
       </header>
 
       <main>
-        <div class="teaser" aria-label="Teaser video">
-          <video autoplay muted loop playsinline preload="metadata" controls>
-            <source src="assets/videos/Object3_merged_rotate_120fps_4K_crop.mp4" type="video/mp4">
-          </video>
+        <div class="teaser">
+          <div class="video-frame">
+            <video autoplay muted loop playsinline preload="metadata" controls>
+              <source src="assets/videos/Object3_merged_rotate_120fps_4K_crop.mp4" type="video/mp4">
+            </video>
+          </div>
           <p class="caption">
-            Example registration result for a thin cultural heritage artifact. The sequence visualizes the merged point cloud under rotation for qualitative inspection.
+            Teaser visualization of the merged point cloud registration result for a thin cultural heritage artifact.
           </p>
         </div>
 
         <section aria-labelledby="abstract-title">
           <h2 id="abstract-title">Abstract</h2>
           <p class="abstract">
-            This project studies point cloud registration for thin, sheet-like cultural heritage artifacts. Such objects are challenging because their limited thickness and fragile geometry can produce ambiguous correspondences and unstable alignment. The proposed geometry-constrained bidirectional registration pipeline combines bidirectional matching cues with geometric restrictions to improve consistency and preserve surface structure during registration.
+            Thin cultural heritage artifacts present a difficult point cloud registration problem because their sheet-like geometry often provides limited thickness, ambiguous local correspondences, and fragile surface boundaries. This project presents a geometry-constrained bidirectional registration pipeline that uses structural constraints and bidirectional correspondence reasoning to improve alignment consistency. The visualizations below show merged rotating point clouds for multiple artifact cases.
           </p>
         </section>
 
         <section id="results" aria-labelledby="results-title">
           <h2 id="results-title">Visual Results</h2>
-          <div class="results-grid">
+          <div class="results">
             <figure class="result-card">
               <video autoplay muted loop playsinline preload="metadata" controls>
                 <source src="assets/videos/Object3_merged_rotate_120fps_4K_crop.mp4" type="video/mp4">
               </video>
-              <figcaption><strong>Object 3</strong><span>merged point cloud</span></figcaption>
+              <figcaption><strong>Object 3</strong><span>merged rotating point cloud</span></figcaption>
             </figure>
 
             <figure class="result-card">
               <video autoplay muted loop playsinline preload="metadata" controls>
                 <source src="assets/videos/Object5_merged_rotate_120fps_4K_crop.mp4" type="video/mp4">
               </video>
-              <figcaption><strong>Object 5</strong><span>merged point cloud</span></figcaption>
+              <figcaption><strong>Object 5</strong><span>merged rotating point cloud</span></figcaption>
             </figure>
 
             <figure class="result-card">
               <video autoplay muted loop playsinline preload="metadata" controls>
                 <source src="assets/videos/Object6_merged_rotate_120fps_4K_crop.mp4" type="video/mp4">
               </video>
-              <figcaption><strong>Object 6</strong><span>merged point cloud</span></figcaption>
+              <figcaption><strong>Object 6</strong><span>merged rotating point cloud</span></figcaption>
             </figure>
 
             <figure class="result-card">
               <video autoplay muted loop playsinline preload="metadata" controls>
                 <source src="assets/videos/Object7_merged_rotate_120fps_4K_crop.mp4" type="video/mp4">
               </video>
-              <figcaption><strong>Object 7</strong><span>merged point cloud</span></figcaption>
+              <figcaption><strong>Object 7</strong><span>merged rotating point cloud</span></figcaption>
             </figure>
 
             <figure class="result-card">
               <video autoplay muted loop playsinline preload="metadata" controls>
                 <source src="assets/videos/Object8_merged_rotate_120fps_4K_crop.mp4" type="video/mp4">
               </video>
-              <figcaption><strong>Object 8</strong><span>merged point cloud</span></figcaption>
+              <figcaption><strong>Object 8</strong><span>merged rotating point cloud</span></figcaption>
             </figure>
           </div>
         </section>
 
         <section aria-labelledby="method-title">
           <h2 id="method-title">Method Overview</h2>
-          <div class="method-points">
+          <div class="method">
             <article>
               <h3>Geometry constraints</h3>
-              <p>Use thin-surface structure to reduce unreliable matches and preserve artifact geometry.</p>
+              <p>Constrain matching with the structural properties of thin artifact surfaces.</p>
             </article>
             <article>
-              <h3>Bidirectional reasoning</h3>
-              <p>Combine forward and reverse correspondence cues to improve registration consistency.</p>
+              <h3>Bidirectional registration</h3>
+              <p>Use forward and reverse correspondence cues to reduce inconsistent alignment.</p>
             </article>
             <article>
-              <h3>Heritage artifacts</h3>
-              <p>Focus on visual inspection and reconstruction quality for delicate cultural heritage objects.</p>
+              <h3>Heritage reconstruction</h3>
+              <p>Support visual inspection of registered point clouds for cultural heritage artifacts.</p>
             </article>
           </div>
         </section>
