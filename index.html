@@ -16,7 +16,7 @@
         --link: #0969da;
         --dark: #24292f;
         --accent: #1a7f64;
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+        font-family: "Times New Roman", Times, serif;
       }
 
       * {
@@ -56,9 +56,8 @@
         max-width: 1000px;
         margin: 0 auto;
         color: #111827;
-        font-family: Georgia, "Times New Roman", serif;
-        font-size: clamp(2.05rem, 4.8vw, 4rem);
-        line-height: 1.08;
+        font-size: clamp(2.35rem, 5.6vw, 4.8rem);
+        line-height: 1.04;
         letter-spacing: 0;
       }
 
@@ -69,13 +68,14 @@
         gap: 8px 18px;
         margin: 22px auto 0;
         color: var(--link);
-        font-size: 1.05rem;
+        font-size: 1.22rem;
         line-height: 1.6;
       }
 
       .affiliations {
         margin: 9px auto 0;
         color: var(--muted);
+        font-size: 1.06rem;
         line-height: 1.6;
       }
 
@@ -97,7 +97,7 @@
         background: var(--dark);
         color: #fff;
         font-weight: 650;
-        font-size: 0.95rem;
+        font-size: 1rem;
       }
 
       .button:hover {
@@ -121,8 +121,7 @@
       h2 {
         margin: 0 0 20px;
         color: #111827;
-        font-family: Georgia, "Times New Roman", serif;
-        font-size: clamp(1.6rem, 3vw, 2.25rem);
+        font-size: clamp(1.8rem, 3.3vw, 2.55rem);
         line-height: 1.15;
         text-align: center;
         letter-spacing: 0;
@@ -131,7 +130,7 @@
       .abstract {
         max-width: 930px;
         margin: 0 auto;
-        font-size: 1rem;
+        font-size: 1.08rem;
         line-height: 1.78;
         text-align: justify;
       }
@@ -140,8 +139,9 @@
         max-width: 900px;
         margin: 0 auto 26px;
         color: var(--muted);
+        font-size: 1.08rem;
         line-height: 1.72;
-        text-align: center;
+        text-align: left;
       }
 
       .figure-list {
@@ -169,7 +169,7 @@
         max-width: 980px;
         margin: 12px auto 0;
         color: var(--muted);
-        font-size: 0.96rem;
+        font-size: 1.03rem;
         line-height: 1.65;
         text-align: left;
       }
@@ -182,13 +182,14 @@
         max-width: 860px;
         margin: 0 auto 24px;
         color: var(--muted);
+        font-size: 1.06rem;
         line-height: 1.65;
-        text-align: center;
+        text-align: left;
       }
 
       .video-grid {
         display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-columns: repeat(6, minmax(0, 1fr));
         gap: 22px;
       }
 
@@ -200,7 +201,15 @@
       }
 
       .video-card.featured {
-        grid-column: 1 / -1;
+        grid-column: span 6;
+      }
+
+      .video-card.medium {
+        grid-column: span 3;
+      }
+
+      .video-card.small {
+        grid-column: span 3;
       }
 
       video {
@@ -213,22 +222,6 @@
 
       .video-card.featured video {
         aspect-ratio: 16 / 8.3;
-      }
-
-      .video-label {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 12px;
-        min-height: 48px;
-        padding: 11px 14px;
-        border-top: 1px solid var(--line);
-        color: var(--muted);
-        font-size: 0.95rem;
-      }
-
-      .video-label strong {
-        color: var(--text);
       }
 
       footer {
@@ -269,13 +262,10 @@
           grid-template-columns: 1fr;
         }
 
-        .video-card.featured {
+        .video-card.featured,
+        .video-card.medium,
+        .video-card.small {
           grid-column: auto;
-        }
-
-        .video-label {
-          align-items: flex-start;
-          flex-direction: column;
         }
       }
     </style>
@@ -285,10 +275,10 @@
       <header>
         <h1>Geometry-Constrained Bidirectional Point Cloud Registration for Thin Cultural Heritage Artifacts</h1>
         <div class="authors" aria-label="Authors">
-          <span>Zhang, Yuezhe</span>
-          <span>Wei, Lei</span>
-          <span>Du, Jingnan</span>
-          <span>Wan, Shuai</span>
+          <span>Yuezhe Zhang</span>
+          <span>Lei Wei</span>
+          <span>Jingnan Du</span>
+          <span>Shuai Wan</span>
         </div>
         <div class="affiliations">
           <div>Northwestern Polytechnical University</div>
@@ -322,6 +312,7 @@
               </div>
               <figcaption>
                 <strong>Figure 1.</strong> Overall geometry-constrained bidirectional registration pipeline. The workflow starts from double-sided multi-view acquisition, removes background and reconstruction artifacts through semantic-guided 2D-3D purification, normalizes each artifact-only point cloud with PCA, estimates thickness, searches over rotation hypotheses, and refines the final alignment with ICP before fitness evaluation.
+                The key idea is to introduce physically meaningful constraints before the two sides are merged. Instead of directly applying unconstrained registration to two near-planar point clouds, the pipeline first builds a canonical coordinate system and uses the estimated thickness as a geometric prior. This makes the subsequent hypothesis search and ICP refinement less vulnerable to flipped or collapsed alignments.
               </figcaption>
             </figure>
 
@@ -331,6 +322,7 @@
               </div>
               <figcaption>
                 <strong>Figure 2.</strong> Artifact-aware reconstruction and purification stage. Double-sided image sets are processed by SfM-MVS to obtain dense point clouds and camera poses, while Segment Anything Model 2 produces semantic masks. The masks and 3D structure are combined to remove non-artifact regions and produce clean front/back point clouds for subsequent registration.
+                This stage separates the artifact from the support surface and surrounding reconstruction noise. The semantic masks provide image-level evidence, while the multi-view reconstruction provides 3D structure. Combining both cues yields artifact-only point clouds, which are more suitable for the later geometry-constrained registration stage.
               </figcaption>
             </figure>
           </div>
@@ -339,7 +331,7 @@
         <section id="results" aria-labelledby="results-title">
           <h2 id="results-title">Visual Results</h2>
           <p class="results-intro">
-            The videos below show the final merged point cloud results. Each result is displayed at a larger scale for visual inspection and loops automatically when supported by the browser.
+            The following videos show the reconstructed results as rotating point clouds. The layout gives one result a larger viewing area and places the remaining sequences in a compact gallery for side-by-side visual inspection.
           </p>
 
           <div class="video-grid">
@@ -347,35 +339,30 @@
               <video autoplay muted loop playsinline preload="metadata" controls>
                 <source src="docs/assets/videos/Object6_merged_rotate_120fps_4K_crop.mp4" type="video/mp4">
               </video>
-              <div class="video-label"><strong>Object 6</strong><span>large registration result</span></div>
             </article>
 
-            <article class="video-card">
+            <article class="video-card small">
               <video autoplay muted loop playsinline preload="metadata" controls>
                 <source src="docs/assets/videos/Object3_merged_rotate_120fps_4K_crop.mp4" type="video/mp4">
               </video>
-              <div class="video-label"><strong>Object 3</strong><span>registration result</span></div>
             </article>
 
-            <article class="video-card">
+            <article class="video-card small">
               <video autoplay muted loop playsinline preload="metadata" controls>
                 <source src="docs/assets/videos/Object5_merged_rotate_120fps_4K_crop.mp4" type="video/mp4">
               </video>
-              <div class="video-label"><strong>Object 5</strong><span>registration result</span></div>
             </article>
 
-            <article class="video-card">
+            <article class="video-card small">
               <video autoplay muted loop playsinline preload="metadata" controls>
                 <source src="docs/assets/videos/Object7_merged_rotate_120fps_4K_crop.mp4" type="video/mp4">
               </video>
-              <div class="video-label"><strong>Object 7</strong><span>registration result</span></div>
             </article>
 
-            <article class="video-card">
+            <article class="video-card small">
               <video autoplay muted loop playsinline preload="metadata" controls>
                 <source src="docs/assets/videos/Object8_merged_rotate_120fps_4K_crop.mp4" type="video/mp4">
               </video>
-              <div class="video-label"><strong>Object 8</strong><span>registration result</span></div>
             </article>
           </div>
         </section>
