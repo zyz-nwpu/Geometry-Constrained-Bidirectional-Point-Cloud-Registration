@@ -5,32 +5,34 @@
 </p>
 
 <p align="center">
-  <a href="https://zyz-nwpu.github.io/Geometry-Constrained-Bidirectional-Registration/">
-    <img alt="Project Page" src="https://img.shields.io/badge/Project%20Page-View%20Full%20Demo-1a7f64?style=for-the-badge">
+  <a href="https://zyz-nwpu.github.io/Geometry-Constrained-Bidirectional-Registration/#results">
+    <img alt="Project Page" src="https://img.shields.io/badge/Project-Page-1a7f64?style=for-the-badge">
   </a>
   <a href="https://github.com/zyz-nwpu/Geometry-Constrained-Bidirectional-Registration">
     <img alt="Source Code" src="https://img.shields.io/badge/Source-Code-24292f?style=for-the-badge&logo=github">
   </a>
 </p>
 
-<p align="center">
-  <a href="https://zyz-nwpu.github.io/Geometry-Constrained-Bidirectional-Registration/">
-    <strong>Open the full project page first</strong>
-  </a>
-</p>
-
 This repository contains the implementation and project materials for geometry-constrained bidirectional point cloud registration of thin cultural heritage artifacts.
 
-The visual project page is the recommended entry point. It includes the abstract, method diagrams, and rotating point cloud result videos:
+Project page:
 
-**https://zyz-nwpu.github.io/Geometry-Constrained-Bidirectional-Registration/**
+**https://zyz-nwpu.github.io/Geometry-Constrained-Bidirectional-Registration/#results**
 
 ## Highlights
 
 - Geometry-constrained bidirectional registration for thin, sheet-like heritage artifacts.
 - Semantic-guided 2D-3D purification for artifact-only point cloud reconstruction.
 - PCA-based canonical normalization and thickness-aware registration constraints.
-- Visual result gallery with looping point cloud registration videos.
+- Visual results for multiple thin cultural heritage artifacts.
+
+## Method Overview
+
+The pipeline contains three main stages:
+
+1. **Semantic-guided purification**: reconstruct front- and back-side point clouds independently and remove background structures using image masks and 3D filtering.
+2. **Geometric normalization**: use PCA to define canonical axes and estimate the artifact thickness direction.
+3. **Bidirectional registration**: evaluate rotation hypotheses, refine candidates with ICP, and select the geometry-consistent alignment.
 
 ## Repository Contents
 
@@ -46,6 +48,8 @@ The visual project page is the recommended entry point. It includes the abstract
 ├── together_pointcloud.py
 └── third_party/
 ```
+
+---
 
 ## Environment Setup
 
