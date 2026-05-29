@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-  <a href="https://zyz-nwpu.github.io/Geometry-Constrained-Bidirectional-Registration/#results">
+  <a href="https://zyz-nwpu.github.io/Geometry-Constrained-Bidirectional-Registration">
     <img alt="Project Page" src="https://img.shields.io/badge/Project-Page-1a7f64?style=for-the-badge">
   </a>
   <a href="https://github.com/zyz-nwpu/Geometry-Constrained-Bidirectional-Registration">
