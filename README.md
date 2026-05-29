@@ -1,44 +1,51 @@
-# Geometry-Constrained Bidirectional Registration
+# Geometry-Constrained Bidirectional Point Cloud Registration
+
+<p align="center">
+  <strong>Geometry-Constrained Bidirectional Point Cloud Registration for Thin Cultural Heritage Artifacts</strong>
+</p>
 
 <p align="center">
   <a href="https://zyz-nwpu.github.io/Geometry-Constrained-Bidirectional-Registration/">
-    <img alt="Project page" src="https://img.shields.io/badge/Project%20Page-Results%20%26%20Paper-116466?style=for-the-badge">
+    <img alt="Project Page" src="https://img.shields.io/badge/Project%20Page-View%20Full%20Demo-1a7f64?style=for-the-badge">
   </a>
   <a href="https://github.com/zyz-nwpu/Geometry-Constrained-Bidirectional-Registration">
-    <img alt="Code" src="https://img.shields.io/badge/GitHub-Code-24292f?style=for-the-badge&logo=github">
+    <img alt="Source Code" src="https://img.shields.io/badge/Source-Code-24292f?style=for-the-badge&logo=github">
   </a>
 </p>
 
 <p align="center">
-  <a href="https://github.com/zyz-nwpu/Geometry-Constrained-Bidirectional-Registration">
-    <img src="https://img.shields.io/github/stars/zyz-nwpu/Geometry-Constrained-Bidirectional-Registration?style=social" alt="GitHub stars">
-  </a>
-  <a href="https://github.com/zyz-nwpu/Geometry-Constrained-Bidirectional-Registration/fork">
-    <img src="https://img.shields.io/github/forks/zyz-nwpu/Geometry-Constrained-Bidirectional-Registration?style=social" alt="GitHub forks">
-  </a>
-  <a href="https://github.com/zyz-nwpu/Geometry-Constrained-Bidirectional-Registration/watchers">
-    <img src="https://img.shields.io/github/watchers/zyz-nwpu/Geometry-Constrained-Bidirectional-Registration?style=social" alt="GitHub watchers">
+  <a href="https://zyz-nwpu.github.io/Geometry-Constrained-Bidirectional-Registration/">
+    <strong>Open the full project page first</strong>
   </a>
 </p>
 
-<p align="center">
-  <a href="https://hits.sh/github.com/zyz-nwpu/Geometry-Constrained-Bidirectional-Registration/">
-    <img src="https://hits.sh/github.com/zyz-nwpu/Geometry-Constrained-Bidirectional-Registration.svg?label=views" alt="Repository views">
-  </a>
-  <img src="https://img.shields.io/github/issues/zyz-nwpu/Geometry-Constrained-Bidirectional-Registration" alt="GitHub issues">
-  <img src="https://img.shields.io/github/license/zyz-nwpu/Geometry-Constrained-Bidirectional-Registration" alt="License">
-  <img src="https://img.shields.io/github/last-commit/zyz-nwpu/Geometry-Constrained-Bidirectional-Registration" alt="Last commit">
-  <img src="https://img.shields.io/github/repo-size/zyz-nwpu/Geometry-Constrained-Bidirectional-Registration" alt="Repo size">
-</p>
+This repository contains the implementation and project materials for geometry-constrained bidirectional point cloud registration of thin cultural heritage artifacts.
 
-Official implementation of **Geometry-Constrained Bidirectional Point Cloud Registration for Thin Cultural Heritage Artifacts**.
-
-## Project Page
-
-The project page contains looping registration visualizations for multiple cultural heritage artifacts:
+The visual project page is the recommended entry point. It includes the abstract, method diagrams, and rotating point cloud result videos:
 
 **https://zyz-nwpu.github.io/Geometry-Constrained-Bidirectional-Registration/**
 
+## Highlights
+
+- Geometry-constrained bidirectional registration for thin, sheet-like heritage artifacts.
+- Semantic-guided 2D-3D purification for artifact-only point cloud reconstruction.
+- PCA-based canonical normalization and thickness-aware registration constraints.
+- Visual result gallery with looping point cloud registration videos.
+
+## Repository Contents
+
+```text
+.
+├── docs/                    # GitHub Pages project website
+│   ├── index.html
+│   └── assets/
+│       ├── figures/          # Method figures used by the project page
+│       └── videos/           # Result videos used by the project page
+├── clear_point.py
+├── convert_dense.py
+├── together_pointcloud.py
+└── third_party/
+```
 
 ## Environment Setup
 
@@ -69,7 +76,7 @@ python -c "import torch; print(torch.__version__); print(torch.version.cuda); pr
 git submodule update --init --recursive
 ```
 
-### 4. Install the required SAM2 package
+### 4. Install SAM 2
 
 ```bash
 cd third_party/sam2
@@ -77,75 +84,43 @@ pip install -e .
 cd ../..
 ```
 
-### 5. Prepare the checkpoint file
+### 5. Prepare the SAM 2 checkpoint
 
-Create a checkpoint folder inside `third_party/sam2`:
-
-Download the checkpoint from [here](https://dl.fbaipublicfiles.com/segment_anything_2/092824/sam2.1_hiera_large.pt).
-
-Place the downloaded file under:
+Create the checkpoint folder:
 
 ```text
 third_party/sam2/checkpoints/
 ```
 
-The final checkpoint path should be:
+Download the checkpoint:
+
+https://dl.fbaipublicfiles.com/segment_anything_2/092824/sam2.1_hiera_large.pt
+
+Place it at:
 
 ```text
 third_party/sam2/checkpoints/sam2.1_hiera_large.pt
 ```
+
 ### 6. Configure COLMAP
 
-COLMAP is used as the external Structure-from-Motion (SfM) and Multi-View Stereo (MVS) reconstruction tool. You can either download the official pre-built package or build it from source.
+COLMAP is used as the Structure-from-Motion and Multi-View Stereo reconstruction tool.
 
-#### Option A: Download the pre-built package
+For Windows users, the official CUDA-enabled prebuilt package is available here:
 
-For Windows users, the official CUDA-enabled pre-built package can be downloaded from [here](https://github.com/colmap/colmap/releases/download/4.0.4/colmap-x64-windows-cuda.zip).
+https://github.com/colmap/colmap/releases/download/4.0.4/colmap-x64-windows-cuda.zip
 
-After downloading and extracting the package, add the directory containing `colmap.exe` to the system `PATH` environment variable.
+After extracting COLMAP, add the directory containing `colmap.exe` to your system `PATH`.
 
-Test COLMAP with:
+Test the installation:
 
 ```bash
 colmap -h
 ```
 
-#### Option B: Build from source
-
-The COLMAP source code is included as a third-party submodule under:
-
-```text
-third_party/colmap
-```
-
-To build COLMAP from source with CUDA support, make sure the following system-level tools are installed:
-
-```text
-Visual Studio 2019 or newer with C++ build tools
-NVIDIA CUDA Toolkit
-CMake
-Git
-VCPKG
-```
-
-Build COLMAP with VCPKG:
-
-```bash
-git submodule update --init --recursive
-cd third_party
-git clone https://github.com/microsoft/vcpkg.git
-cd vcpkg
-bootstrap-vcpkg.bat
-vcpkg install colmap[cuda,tests]:x64-windows
-```
-
-### 7. Dataset Structure
-
-
 ## Acknowledgements
 
-This project uses several third-party tools and libraries. We thank the authors and contributors of the following projects:
+This project builds on several open-source tools and libraries:
 
-- [SAM 2](https://github.com/facebookresearch/sam2), which is used for semantic mask generation during the preprocessing stage.
-- [COLMAP](https://github.com/colmap/colmap), which is used for Structure-from-Motion (SfM) and Multi-View Stereo (MVS) reconstruction.
-
+- [SAM 2](https://github.com/facebookresearch/sam2) for semantic mask generation.
+- [COLMAP](https://github.com/colmap/colmap) for SfM-MVS reconstruction.
