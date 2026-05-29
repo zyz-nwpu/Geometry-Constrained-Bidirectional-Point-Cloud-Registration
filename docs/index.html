@@ -3,20 +3,21 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Geometry-constrained bidirectional point cloud registration for thin cultural heritage artifacts.">
+    <meta name="description" content="Project page for Geometry-Constrained Bidirectional Point Cloud Registration for Thin Cultural Heritage Artifacts.">
     <title>Geometry-Constrained Bidirectional Registration</title>
     <style>
       :root {
-        color-scheme: dark;
-        --ink: #f4f7fb;
-        --muted: #aab6c8;
-        --line: rgba(255, 255, 255, 0.15);
-        --panel: rgba(11, 18, 30, 0.74);
-        --panel-strong: rgba(14, 23, 38, 0.92);
-        --accent: #55d6be;
-        --accent-2: #ffcf70;
-        --bg: #071019;
-        --bg-2: #101825;
+        color-scheme: light;
+        --ink: #18202a;
+        --muted: #5d6875;
+        --soft: #eef2f6;
+        --paper: #ffffff;
+        --line: #d7dee7;
+        --line-strong: #b5c0cd;
+        --accent: #116466;
+        --accent-dark: #0c4547;
+        --warm: #b46b32;
+        --github: #24292f;
         font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       }
 
@@ -30,12 +31,8 @@
 
       body {
         margin: 0;
-        background:
-          radial-gradient(circle at 18% 12%, rgba(85, 214, 190, 0.15), transparent 30%),
-          radial-gradient(circle at 84% 4%, rgba(255, 207, 112, 0.12), transparent 28%),
-          linear-gradient(140deg, var(--bg), var(--bg-2) 54%, #090d14);
+        background: #f7f8fa;
         color: var(--ink);
-        min-height: 100vh;
       }
 
       a {
@@ -43,173 +40,175 @@
       }
 
       .hero {
-        min-height: 92vh;
-        display: grid;
-        grid-template-columns: minmax(0, 0.9fr) minmax(420px, 1.1fr);
-        gap: clamp(24px, 4vw, 64px);
-        align-items: center;
-        padding: clamp(24px, 5vw, 72px);
         position: relative;
+        min-height: 88vh;
+        display: flex;
+        align-items: flex-end;
         overflow: hidden;
+        background: #111820;
+      }
+
+      .hero video {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0.78;
       }
 
       .hero::after {
         content: "";
         position: absolute;
-        inset: auto 0 0;
-        height: 34vh;
-        background: linear-gradient(transparent, rgba(7, 16, 25, 0.88));
-        pointer-events: none;
+        inset: 0;
+        background: linear-gradient(90deg, rgba(8, 13, 19, 0.86), rgba(8, 13, 19, 0.48) 52%, rgba(8, 13, 19, 0.14));
       }
 
-      .hero-copy,
-      .hero-visual {
+      .hero-inner {
         position: relative;
         z-index: 1;
+        width: min(1180px, calc(100% - 40px));
+        margin: 0 auto;
+        padding: 42px 0 72px;
+        color: #fff;
       }
 
-      .eyebrow {
-        display: inline-flex;
-        align-items: center;
-        gap: 10px;
-        margin: 0 0 18px;
-        color: var(--accent);
-        font-size: 0.78rem;
-        font-weight: 760;
-        letter-spacing: 0.08em;
+      .kicker {
+        margin: 0 0 16px;
+        color: #a7ddd8;
+        font-size: 0.82rem;
+        font-weight: 780;
+        letter-spacing: 0.14em;
         text-transform: uppercase;
       }
 
-      .eyebrow::before {
-        content: "";
-        width: 38px;
-        height: 2px;
-        background: var(--accent);
-      }
-
       h1 {
+        width: min(980px, 100%);
         margin: 0;
-        max-width: 900px;
-        font-size: clamp(2.35rem, 6vw, 6rem);
-        line-height: 0.98;
+        font-size: clamp(2.35rem, 6vw, 5.9rem);
+        line-height: 0.96;
         letter-spacing: 0;
       }
 
-      .lead {
+      .subtitle {
+        width: min(760px, 100%);
         margin: 24px 0 0;
-        max-width: 700px;
-        color: var(--muted);
-        font-size: clamp(1rem, 1.7vw, 1.35rem);
+        color: rgba(255, 255, 255, 0.82);
+        font-size: clamp(1rem, 1.7vw, 1.26rem);
         line-height: 1.65;
       }
 
       .actions {
         display: flex;
         flex-wrap: wrap;
-        gap: 14px;
-        margin-top: 34px;
+        gap: 12px;
+        margin-top: 30px;
       }
 
       .button {
-        min-height: 48px;
+        min-height: 46px;
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        gap: 10px;
-        border: 1px solid var(--line);
+        border: 1px solid rgba(255, 255, 255, 0.34);
         border-radius: 7px;
-        padding: 0 18px;
+        padding: 0 17px;
+        color: #fff;
         text-decoration: none;
-        font-weight: 720;
-        background: rgba(255, 255, 255, 0.08);
-        color: var(--ink);
-        transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
-      }
-
-      .button.primary {
-        background: var(--accent);
-        color: #06251f;
-        border-color: transparent;
+        font-weight: 760;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(12px);
+        transition: transform 160ms ease, background 160ms ease, border-color 160ms ease;
       }
 
       .button:hover {
         transform: translateY(-2px);
-        border-color: rgba(255, 255, 255, 0.36);
-        background: rgba(255, 255, 255, 0.13);
+        border-color: rgba(255, 255, 255, 0.68);
+        background: rgba(255, 255, 255, 0.18);
       }
 
-      .button.primary:hover {
-        background: #7be6d2;
+      .button.primary {
+        background: #ffffff;
+        color: #122126;
+        border-color: #ffffff;
       }
 
-      .hero-visual {
-        width: 100%;
-        aspect-ratio: 16 / 10;
-        border: 1px solid var(--line);
-        border-radius: 8px;
-        overflow: hidden;
-        background: #05080d;
-        box-shadow: 0 32px 90px rgba(0, 0, 0, 0.42);
-      }
-
-      .hero-visual video {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-      }
-
-      .caption-bar {
-        position: absolute;
-        left: 14px;
-        right: 14px;
-        bottom: 14px;
-        display: flex;
-        justify-content: space-between;
-        gap: 12px;
-        padding: 12px 14px;
-        border: 1px solid var(--line);
-        border-radius: 7px;
-        background: rgba(5, 8, 13, 0.72);
-        backdrop-filter: blur(18px);
-        color: var(--muted);
-        font-size: 0.82rem;
+      .button.github {
+        background: var(--github);
+        border-color: var(--github);
       }
 
       main {
-        position: relative;
-        z-index: 2;
+        background: #f7f8fa;
       }
 
       .section {
-        padding: clamp(42px, 7vw, 86px) clamp(20px, 5vw, 72px);
+        padding: clamp(42px, 7vw, 86px) 20px;
       }
 
-      .section-inner {
-        max-width: 1180px;
+      .section.paper-band {
+        background: var(--paper);
+        border-top: 1px solid var(--line);
+        border-bottom: 1px solid var(--line);
+      }
+
+      .inner {
+        width: min(1180px, 100%);
         margin: 0 auto;
       }
 
       .section-head {
         display: grid;
-        grid-template-columns: minmax(0, 0.8fr) minmax(280px, 0.7fr);
+        grid-template-columns: minmax(0, 0.9fr) minmax(260px, 0.55fr);
         gap: 28px;
         align-items: end;
-        margin-bottom: 28px;
+        margin-bottom: 26px;
       }
 
       h2 {
         margin: 0;
-        font-size: clamp(1.7rem, 3.4vw, 3.25rem);
-        line-height: 1.05;
+        font-size: clamp(1.65rem, 3vw, 3rem);
+        line-height: 1.08;
         letter-spacing: 0;
       }
 
       .section-head p,
-      .method p {
-        color: var(--muted);
-        line-height: 1.7;
+      .summary p,
+      .paper p {
         margin: 0;
+        color: var(--muted);
+        line-height: 1.72;
+      }
+
+      .summary {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+      }
+
+      .summary article,
+      .paper {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--paper);
+      }
+
+      .summary article {
+        padding: 22px;
+      }
+
+      .summary strong {
+        display: block;
+        margin-bottom: 10px;
+        color: var(--accent-dark);
+        font-size: 0.82rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .summary h3 {
+        margin: 0 0 10px;
+        font-size: 1.08rem;
       }
 
       .video-grid {
@@ -220,113 +219,124 @@
 
       .video-card {
         grid-column: span 2;
-        min-height: 0;
+        overflow: hidden;
         border: 1px solid var(--line);
         border-radius: 8px;
-        overflow: hidden;
-        background: var(--panel);
+        background: var(--paper);
       }
 
-      .video-card.large {
+      .video-card.featured {
         grid-column: span 3;
       }
 
       .video-card video {
         width: 100%;
         aspect-ratio: 16 / 10;
-        object-fit: cover;
         display: block;
-        background: #05080d;
+        object-fit: cover;
+        background: #111820;
       }
 
-      .video-label {
+      .video-meta {
         display: flex;
-        justify-content: space-between;
         align-items: center;
+        justify-content: space-between;
         gap: 12px;
+        min-height: 52px;
         padding: 12px 14px;
-        color: var(--muted);
-        font-size: 0.88rem;
         border-top: 1px solid var(--line);
-      }
-
-      .video-label strong {
-        color: var(--ink);
-        font-size: 0.94rem;
-      }
-
-      .method {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 16px;
-      }
-
-      .method-item {
-        padding: 20px;
-        border: 1px solid var(--line);
-        border-radius: 8px;
-        background: var(--panel-strong);
-      }
-
-      .method-item span {
-        color: var(--accent-2);
-        font-weight: 800;
+        color: var(--muted);
         font-size: 0.9rem;
       }
 
-      .method-item h3 {
-        margin: 12px 0 10px;
-        font-size: 1.05rem;
+      .video-meta strong {
+        color: var(--ink);
       }
 
-      .footer {
-        padding: 34px clamp(20px, 5vw, 72px) 52px;
+      .paper {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 22px;
+        align-items: center;
+        padding: 26px;
+      }
+
+      .paper h2 {
+        margin-bottom: 12px;
+      }
+
+      .paper-actions {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+      }
+
+      .paper-actions .button {
+        color: var(--ink);
+        border-color: var(--line-strong);
+        background: #fff;
+        backdrop-filter: none;
+      }
+
+      .paper-actions .button.primary {
+        color: #fff;
+        background: var(--accent);
+        border-color: var(--accent);
+      }
+
+      .paper-actions .button.github {
+        color: #fff;
+        background: var(--github);
+        border-color: var(--github);
+      }
+
+      footer {
+        padding: 30px 20px 44px;
         color: var(--muted);
         border-top: 1px solid var(--line);
+        background: #fff;
       }
 
       .footer-inner {
-        max-width: 1180px;
+        width: min(1180px, 100%);
         margin: 0 auto;
         display: flex;
         justify-content: space-between;
-        gap: 20px;
+        gap: 18px;
         flex-wrap: wrap;
+        font-size: 0.94rem;
       }
 
-      @media (max-width: 980px) {
-        .hero,
+      @media (max-width: 920px) {
+        .hero {
+          min-height: 78vh;
+        }
+
         .section-head,
-        .method {
+        .summary,
+        .paper {
           grid-template-columns: 1fr;
         }
 
-        .hero {
-          min-height: auto;
-          padding-top: 44px;
-        }
-
-        .hero-visual {
-          aspect-ratio: 16 / 11;
+        .paper-actions {
+          justify-content: flex-start;
         }
 
         .video-card,
-        .video-card.large {
+        .video-card.featured {
           grid-column: span 3;
         }
       }
 
-      @media (max-width: 680px) {
-        .hero {
-          padding: 28px 18px 46px;
+      @media (max-width: 640px) {
+        .hero-inner {
+          width: min(100% - 32px, 1180px);
+          padding-bottom: 52px;
         }
 
-        .section {
-          padding-left: 18px;
-          padding-right: 18px;
-        }
-
-        .actions {
+        .actions,
+        .paper-actions {
           display: grid;
         }
 
@@ -334,123 +344,128 @@
           width: 100%;
         }
 
-        .caption-bar {
-          position: static;
-          border-radius: 0;
-          border-left: 0;
-          border-right: 0;
-          border-bottom: 0;
-        }
-
         .video-grid {
           grid-template-columns: 1fr;
         }
 
         .video-card,
-        .video-card.large {
+        .video-card.featured {
           grid-column: span 1;
+        }
+
+        .video-meta {
+          align-items: flex-start;
+          flex-direction: column;
         }
       }
     </style>
   </head>
   <body>
     <header class="hero">
-      <section class="hero-copy" aria-labelledby="page-title">
-        <p class="eyebrow">Thin Cultural Heritage Artifacts</p>
-        <h1 id="page-title">Geometry-Constrained Bidirectional Registration</h1>
-        <p class="lead">
-          A point cloud registration workflow designed for thin, sheet-like cultural heritage artifacts, combining bidirectional matching with geometric constraints for robust reconstruction and alignment.
+      <video autoplay muted loop playsinline preload="metadata" aria-hidden="true">
+        <source src="assets/videos/Object3_merged_rotate_120fps_4K_crop.mp4" type="video/mp4">
+      </video>
+      <div class="hero-inner">
+        <p class="kicker">Thin Cultural Heritage Artifacts</p>
+        <h1>Geometry-Constrained Bidirectional Registration</h1>
+        <p class="subtitle">
+          A point cloud registration pipeline for thin cultural heritage artifacts, designed to improve alignment stability through geometry-aware constraints and bidirectional correspondence reasoning.
         </p>
-        <nav class="actions" aria-label="Project links">
-          <a class="button primary" href="https://github.com/zyz-nwpu/Geometry-Constrained-Bidirectional-Registration">View Code on GitHub</a>
-          <a class="button" href="#visualizations">Watch Results</a>
+        <nav class="actions" aria-label="Primary project links">
+          <a class="button primary" href="#results">View Visual Results</a>
+          <a class="button github" href="https://github.com/zyz-nwpu/Geometry-Constrained-Bidirectional-Registration">Source Code</a>
         </nav>
-      </section>
-
-      <section class="hero-visual" aria-label="Rotating artifact registration visualization">
-        <video autoplay muted loop playsinline preload="metadata">
-          <source src="assets/videos/Object3_merged_rotate_120fps_4K_crop.mp4" type="video/mp4">
-        </video>
-        <div class="caption-bar">
-          <span>Bidirectional point cloud alignment</span>
-          <span>Object 3</span>
-        </div>
-      </section>
+      </div>
     </header>
 
     <main>
-      <section class="section" id="visualizations">
-        <div class="section-inner">
+      <section class="section paper-band" aria-label="Method summary">
+        <div class="inner summary">
+          <article>
+            <strong>Problem</strong>
+            <h3>Thin artifact registration</h3>
+            <p>Thin, sheet-like cultural heritage objects create ambiguous geometry and fragile overlap, making point cloud alignment sensitive to drift and incorrect matches.</p>
+          </article>
+          <article>
+            <strong>Method</strong>
+            <h3>Bidirectional constraints</h3>
+            <p>The registration process uses forward and reverse matching cues with geometry-aware restrictions to encourage consistent alignment across delicate surfaces.</p>
+          </article>
+          <article>
+            <strong>Output</strong>
+            <h3>Visual reconstruction evidence</h3>
+            <p>The rotating result videos show merged point cloud behavior across multiple artifacts, making surface continuity and registration quality easy to inspect.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="results">
+        <div class="inner">
           <div class="section-head">
-            <h2>Registration Visualizations</h2>
+            <h2>Registration Results</h2>
             <p>
-              The rotating sequences show registered point cloud results across multiple artifacts, highlighting thin-surface geometry, edge continuity, and global alignment behavior.
+              Looping videos present five artifact cases. Each sequence is included directly in the repository so the project page remains reproducible from GitHub Pages.
             </p>
           </div>
 
           <div class="video-grid">
-            <article class="video-card large">
+            <article class="video-card featured">
               <video autoplay muted loop playsinline preload="metadata" controls>
                 <source src="assets/videos/Object3_merged_rotate_120fps_4K_crop.mp4" type="video/mp4">
               </video>
-              <div class="video-label"><strong>Object 3</strong><span>4K crop</span></div>
+              <div class="video-meta"><strong>Object 3</strong><span>merged rotating point cloud</span></div>
             </article>
 
-            <article class="video-card large">
+            <article class="video-card featured">
               <video autoplay muted loop playsinline preload="metadata" controls>
                 <source src="assets/videos/Object5_merged_rotate_120fps_4K_crop.mp4" type="video/mp4">
               </video>
-              <div class="video-label"><strong>Object 5</strong><span>4K crop</span></div>
+              <div class="video-meta"><strong>Object 5</strong><span>merged rotating point cloud</span></div>
             </article>
 
             <article class="video-card">
               <video autoplay muted loop playsinline preload="metadata" controls>
                 <source src="assets/videos/Object6_merged_rotate_120fps_4K_crop.mp4" type="video/mp4">
               </video>
-              <div class="video-label"><strong>Object 6</strong><span>4K crop</span></div>
+              <div class="video-meta"><strong>Object 6</strong><span>merged rotating point cloud</span></div>
             </article>
 
             <article class="video-card">
               <video autoplay muted loop playsinline preload="metadata" controls>
                 <source src="assets/videos/Object7_merged_rotate_120fps_4K_crop.mp4" type="video/mp4">
               </video>
-              <div class="video-label"><strong>Object 7</strong><span>4K crop</span></div>
+              <div class="video-meta"><strong>Object 7</strong><span>merged rotating point cloud</span></div>
             </article>
 
             <article class="video-card">
               <video autoplay muted loop playsinline preload="metadata" controls>
                 <source src="assets/videos/Object8_merged_rotate_120fps_4K_crop.mp4" type="video/mp4">
               </video>
-              <div class="video-label"><strong>Object 8</strong><span>4K crop</span></div>
+              <div class="video-meta"><strong>Object 8</strong><span>merged rotating point cloud</span></div>
             </article>
           </div>
         </div>
       </section>
 
-      <section class="section" aria-label="Method overview">
-        <div class="section-inner method">
-          <article class="method-item">
-            <span>01</span>
-            <h3>Geometry-Constrained Matching</h3>
-            <p>Uses artifact surface structure to guide reliable correspondences on thin and delicate shapes.</p>
-          </article>
-          <article class="method-item">
-            <span>02</span>
-            <h3>Bidirectional Registration</h3>
-            <p>Balances forward and reverse alignment cues to reduce drift and improve consistency.</p>
-          </article>
-          <article class="method-item">
-            <span>03</span>
-            <h3>Heritage-Oriented Reconstruction</h3>
-            <p>Supports visualization and analysis workflows for fragile cultural heritage artifacts.</p>
-          </article>
+      <section class="section paper-band" id="paper">
+        <div class="inner paper">
+          <div>
+            <h2>Paper and Code</h2>
+            <p>
+              Geometry-Constrained Bidirectional Point Cloud Registration for Thin Cultural Heritage Artifacts. The repository contains the implementation, setup notes, and visual assets used by this project page.
+            </p>
+          </div>
+          <div class="paper-actions">
+            <a class="button primary" href="#results">Review Results</a>
+            <a class="button github" href="https://github.com/zyz-nwpu/Geometry-Constrained-Bidirectional-Registration">View Repository</a>
+          </div>
         </div>
       </section>
     </main>
 
-    <footer class="footer">
+    <footer>
       <div class="footer-inner">
-        <span>Geometry-Constrained Bidirectional Point Cloud Registration for Thin Cultural Heritage Artifacts</span>
+        <span>Geometry-Constrained Bidirectional Registration</span>
         <a href="https://github.com/zyz-nwpu/Geometry-Constrained-Bidirectional-Registration">github.com/zyz-nwpu/Geometry-Constrained-Bidirectional-Registration</a>
       </div>
     </footer>

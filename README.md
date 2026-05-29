@@ -1,8 +1,8 @@
-# Geometry-Constrained-Bidirectional-Registration
+# Geometry-Constrained Bidirectional Registration
 
 <p align="center">
   <a href="https://zyz-nwpu.github.io/Geometry-Constrained-Bidirectional-Registration/">
-    <img alt="Project page" src="https://img.shields.io/badge/Project%20Page-Visual%20Demo-55d6be?style=for-the-badge">
+    <img alt="Project page" src="https://img.shields.io/badge/Project%20Page-Results%20%26%20Paper-116466?style=for-the-badge">
   </a>
   <a href="https://github.com/zyz-nwpu/Geometry-Constrained-Bidirectional-Registration">
     <img alt="Code" src="https://img.shields.io/badge/GitHub-Code-24292f?style=for-the-badge&logo=github">
@@ -31,15 +31,13 @@
   <img src="https://img.shields.io/github/repo-size/zyz-nwpu/Geometry-Constrained-Bidirectional-Registration" alt="Repo size">
 </p>
 
-Official implementation of geometry-constrained bidirectional point cloud registration for thin, sheet-like heritage artifacts.
+Official implementation of **Geometry-Constrained Bidirectional Point Cloud Registration for Thin Cultural Heritage Artifacts**.
 
 ## Project Page
 
-The visual project page is available at:
+The project page contains looping registration visualizations for multiple cultural heritage artifacts:
 
 **https://zyz-nwpu.github.io/Geometry-Constrained-Bidirectional-Registration/**
-
-It contains looping registration videos for multiple cultural heritage artifacts and a direct button back to the source code.
 
 
 ## Environment Setup
