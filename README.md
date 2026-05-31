@@ -14,9 +14,6 @@
 </p>
 
 This repository contains the implementation and project materials for geometry-constrained bidirectional point cloud registration of thin cultural heritage artifacts.
-
-Project page: [here](https://zyz-nwpu.github.io/Geometry-Constrained-Bidirectional-Registration)
-
 ---
 
 ## Environment Setup
