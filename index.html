@@ -232,10 +232,8 @@
       }
 
       .method-figure {
-        padding: 14px;
-        border: 1px solid var(--line);
-        border-radius: 8px;
-        background: linear-gradient(180deg, #fff, var(--soft));
+        padding: 0;
+        background: #fff;
       }
 
       .method-figure img {
@@ -264,10 +262,7 @@
 
       .video-card {
         overflow: hidden;
-        border: 1px solid var(--line);
-        border-radius: 8px;
-        background: var(--soft);
-        box-shadow: 0 10px 26px rgba(27, 31, 35, 0.05);
+        background: #fff;
       }
 
       .video-card.featured {
@@ -287,7 +282,7 @@
         display: block;
         aspect-ratio: 16 / 9;
         object-fit: contain;
-        background: var(--soft);
+        background: #fff;
       }
 
       .video-card.featured video {
@@ -344,7 +339,6 @@
         }
 
         .method-figure {
-          padding: 8px;
           overflow-x: auto;
         }
 
@@ -367,7 +361,7 @@
   <body>
     <div class="topbar" aria-label="Project navigation">
       <div class="topbar-inner">
-        <a class="brand" href="#top">GCB Registration</a>
+        <a class="brand" href="#top">Geometry-Constrained Bidirectional Point Cloud Registration</a>
         <nav class="topnav" aria-label="Page sections">
           <a href="#abstract">Abstract</a>
           <a href="#method">Method</a>
@@ -455,31 +449,31 @@
           <div class="video-grid">
             <article class="video-card featured">
               <video autoplay muted loop playsinline preload="metadata" controls>
-                <source src="docs/assets/videos/Object6_merged_rotate_120fps_4K_crop.mp4" type="video/mp4">
+                <source src="docs/assets/videos/cultural-heritage-artifact-result-01.mp4" type="video/mp4">
               </video>
             </article>
 
             <article class="video-card small">
               <video autoplay muted loop playsinline preload="metadata" controls>
-                <source src="docs/assets/videos/Object3_merged_rotate_120fps_4K_crop.mp4" type="video/mp4">
+                <source src="docs/assets/videos/cultural-heritage-artifact-result-02.mp4" type="video/mp4">
               </video>
             </article>
 
             <article class="video-card small">
               <video autoplay muted loop playsinline preload="metadata" controls>
-                <source src="docs/assets/videos/Object5_merged_rotate_120fps_4K_crop.mp4" type="video/mp4">
+                <source src="docs/assets/videos/cultural-heritage-artifact-result-03.mp4" type="video/mp4">
               </video>
             </article>
 
             <article class="video-card small">
               <video autoplay muted loop playsinline preload="metadata" controls>
-                <source src="docs/assets/videos/Object7_merged_rotate_120fps_4K_crop.mp4" type="video/mp4">
+                <source src="docs/assets/videos/cultural-heritage-artifact-result-04.mp4" type="video/mp4">
               </video>
             </article>
 
             <article class="video-card small">
               <video autoplay muted loop playsinline preload="metadata" controls>
-                <source src="docs/assets/videos/Object8_merged_rotate_120fps_4K_crop.mp4" type="video/mp4">
+                <source src="docs/assets/videos/cultural-heritage-artifact-result-05.mp4" type="video/mp4">
               </video>
             </article>
           </div>
@@ -500,17 +494,6 @@
         });
       };
 
-      const openResultsFirst = () => {
-        if (!window.location.hash) {
-          const results = document.getElementById("results");
-          if (results) {
-            history.replaceState(null, "", "#results");
-            results.scrollIntoView({ block: "start" });
-          }
-        }
-      };
-
-      window.addEventListener("DOMContentLoaded", openResultsFirst);
       window.addEventListener("load", playVideos);
       document.addEventListener("visibilitychange", () => {
         if (!document.hidden) playVideos();
