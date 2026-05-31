@@ -13,8 +13,7 @@
   </a>
 </p>
 
-This repository contains the implementation and project materials for geometry-constrained bidirectional point cloud registration of thin cultural heritage artifacts.
----
+
 
 ## Environment Setup
 
