@@ -15,24 +15,7 @@
 
 This repository contains the implementation and project materials for geometry-constrained bidirectional point cloud registration of thin cultural heritage artifacts.
 
-Project page:
-
-**https://zyz-nwpu.github.io/Geometry-Constrained-Bidirectional-Registration**
-
-## Highlights
-
-- Geometry-constrained bidirectional registration for thin, sheet-like heritage artifacts.
-- Semantic-guided 2D-3D purification for artifact-only point cloud reconstruction.
-- PCA-based canonical normalization and thickness-aware registration constraints.
-- Visual results for multiple thin cultural heritage artifacts.
-
-## Method Overview
-
-The pipeline contains three main stages:
-
-1. **Semantic-guided purification**: reconstruct front- and back-side point clouds independently and remove background structures using image masks and 3D filtering.
-2. **Geometric normalization**: use PCA to define canonical axes and estimate the artifact thickness direction.
-3. **Bidirectional registration**: evaluate rotation hypotheses, refine candidates with ICP, and select the geometry-consistent alignment.
+Project page: [here](https://zyz-nwpu.github.io/Geometry-Constrained-Bidirectional-Registration)
 
 ---
 
