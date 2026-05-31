@@ -34,21 +34,6 @@ The pipeline contains three main stages:
 2. **Geometric normalization**: use PCA to define canonical axes and estimate the artifact thickness direction.
 3. **Bidirectional registration**: evaluate rotation hypotheses, refine candidates with ICP, and select the geometry-consistent alignment.
 
-## Repository Contents
-
-```text
-.
-├── docs/                    # GitHub Pages project website
-│   ├── index.html
-│   └── assets/
-│       ├── figures/          # Method figures used by the project page
-│       └── videos/           # Result videos used by the project page
-├── clear_point.py
-├── convert_dense.py
-├── together_pointcloud.py
-└── third_party/
-```
-
 ---
 
 ## Environment Setup
