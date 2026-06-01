@@ -5,7 +5,7 @@
     <img alt="Project" src="https://img.shields.io/badge/Project-Page-1a7f64?style=for-the-badge">
   </a>
   <a href="">
-    <img alt="Paper" src="https://img.shields.io/badge/Paper-24292f?style=for-the-badge">
+    <img alt="Paper" src="https://img.shields.io/badge/Paper-Page-24292f?style=for-the-badge">
   </a>
 </p>
 
@@ -40,11 +40,7 @@ pip install -e .
 cd ../..
 ```
 
-Download the Segment Anything Model 2 checkpoint:
-
-```text
-https://dl.fbaipublicfiles.com/segment_anything_2/092824/sam2.1_hiera_large.pt
-```
+Download the Segment Anything Model 2 checkpoint from [here](https://dl.fbaipublicfiles.com/segment_anything_2/092824/sam2.1_hiera_large.pt).
 
 Place it at:
 
