@@ -1,4 +1,4 @@
-# Geometry-Constrained Bidirectional Point Cloud Registration For Thin Cultural Heritage Artifacts
+# Geometry-Constrained Bidirectional Point Cloud Registration for Thin Cultural Heritage Artifacts
 
 <p align="center">
   <a href="https://zyz-nwpu.github.io/Geometry-Constrained-Bidirectional-Registration">
