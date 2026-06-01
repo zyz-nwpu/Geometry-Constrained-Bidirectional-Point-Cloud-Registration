@@ -4,9 +4,9 @@
   <a href="https://zyz-nwpu.github.io/Geometry-Constrained-Bidirectional-Registration">
     <img alt="Project" src="https://img.shields.io/badge/Project-Page-1a7f64?style=for-the-badge">
   </a>
-  <span>
+  <a href="">
     <img alt="Paper" src="https://img.shields.io/badge/Paper-Coming%20Soon-24292f?style=for-the-badge">
-  </span>
+  </a>
 </p>
 
 This repository provides the implementation for geometry-constrained bidirectional point cloud registration of thin cultural heritage artifacts. The workflow reconstructs the front and back sides independently, extracts artifact-only geometry with semantic masks, and merges both sides under geometry-aware registration constraints.
