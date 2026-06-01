@@ -5,7 +5,7 @@
     <img alt="Project" src="https://img.shields.io/badge/Project-Page-1a7f64?style=for-the-badge">
   </a>
   <a href="">
-    <img alt="Paper" src="https://img.shields.io/badge/Paper-Coming%20Soon-24292f?style=for-the-badge">
+    <img alt="Paper" src="https://img.shields.io/badge/Paper-24292f?style=for-the-badge">
   </a>
 </p>
 
@@ -20,7 +20,11 @@ conda create -n gcbreg python=3.10 -y
 conda activate gcbreg
 ```
 
-Install the PyTorch build that matches the local CUDA environment from [here](https://pytorch.org/get-started/locally/).
+Install PyTorch with GPU support:
+
+```bash
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu128
+```
 
 Initialize the third-party dependencies:
 
@@ -36,13 +40,19 @@ pip install -e .
 cd ../..
 ```
 
-Download the Segment Anything Model 2 checkpoint from [here](https://dl.fbaipublicfiles.com/segment_anything_2/092824/sam2.1_hiera_large.pt) and place it at:
+Download the Segment Anything Model 2 checkpoint:
+
+```text
+https://dl.fbaipublicfiles.com/segment_anything_2/092824/sam2.1_hiera_large.pt
+```
+
+Place it at:
 
 ```text
 third_party/sam2/checkpoints/sam2.1_hiera_large.pt
 ```
 
-Install COLMAP from [here](https://github.com/colmap/colmap) or download the Windows CUDA package from [here](https://github.com/colmap/colmap/releases/download/4.0.4/colmap-x64-windows-cuda.zip), then set `COLMAP_EXE` in `convert_dense.py` to the path of `colmap.exe`.
+Install COLMAP and set `COLMAP_EXE` in `convert_dense.py` to the path of `colmap.exe`.
 
 ## Data Organization
 
