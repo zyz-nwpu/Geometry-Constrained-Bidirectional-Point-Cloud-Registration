@@ -74,11 +74,6 @@ https://github.com/colmap/colmap/releases/download/4.0.4/colmap-x64-windows-cuda
 
 After extracting COLMAP, add the directory containing `colmap.exe` to your system `PATH`.
 
-Test the installation:
-
-```bash
-colmap -h
-```
 
 ## Acknowledgements
 
