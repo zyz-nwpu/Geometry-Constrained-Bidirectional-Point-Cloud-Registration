@@ -86,9 +86,9 @@ COLMAP_EXE = r"E:\3DGS\gaussian-splatting-main\3dgs_tools\colmap\bin\colmap.exe"
 
 ## Processing Pipeline
 
-### 7. Prepare the artifact dataset
+### 7. Prepare the input data
 
-For each artifact, the front-side and back-side images should be placed in two separate `input` folders:
+For each artifact, place the front-side and back-side input images in two separate folders:
 
 ```text
 Object_01/
@@ -104,27 +104,19 @@ Object_01/
         └── ...
 ```
 
-Here, `front/input/` contains the original images of the front side, and `back/input/` contains the original images of the back side.
+The folder `input/` stores the original image sequence of one side of the artifact.
 
-### 8. Reconstruct each side with COLMAP
+The following steps use `Object_01/front/input/` as an example. The same operations should also be applied to `Object_01/back/input/` before front-back merging.
 
-Run `convert_dense.py` separately for the front side and the back side.
+### 8. Reconstruct one side with COLMAP
 
-Front side:
+Run `convert_dense.py` on one input folder:
 
 ```bash
 python convert_dense.py --images Object_01/front/input --overwrite
 ```
 
-Back side:
-
-```bash
-python convert_dense.py --images Object_01/back/input --overwrite
-```
-
-For a single side, the script uses the parent folder of `input/` as the workspace. Therefore, the outputs are generated inside `front/` or `back/`.
-
-For the front side, the outputs are:
+The script uses the parent folder of `input/` as the workspace. Therefore, for `Object_01/front/input/`, the output will be generated inside `Object_01/front/`:
 
 ```text
 Object_01/
@@ -140,122 +132,146 @@ Object_01/
         └── fused.ply
 ```
 
-For the back side, the outputs are:
+Here:
 
 ```text
-Object_01/
-└── back/
-    ├── input/
-    ├── database.db
-    ├── sparse/
-    │   └── 0/
-    │       ├── cameras.bin
-    │       ├── images.bin
-    │       └── points3D.bin
-    └── dense/
-        └── fused.ply
+front/sparse/0/      COLMAP sparse reconstruction result
+front/dense/fused.ply  dense point cloud of this side
 ```
 
-The file `dense/fused.ply` is the dense point cloud of the corresponding side. It will be used as the input point cloud for the point-cleaning step.
+Repeat this step for the other side:
+
+```bash
+python convert_dense.py --images Object_01/back/input --overwrite
+```
 
 ### 9. Generate foreground masks
 
-Run `mask_get.py` separately for the front and back input folders:
+Run `mask_get.py` for one input folder:
 
 ```bash
 python mask_get.py
 ```
 
-Input examples:
+When prompted, enter:
 
 ```text
 Object_01/front/input/
-Object_01/back/input/
 ```
 
-The script automatically generates mask folders next to the input folders:
+The script generates the mask folder next to `input/`:
 
 ```text
 Object_01/front/input_mask/
-Object_01/back/input_mask/
 ```
 
-The mask filenames should keep the same filename stems as the original input images. For example:
+Example:
 
 ```text
 Object_01/front/input/0001.jpg
 Object_01/front/input_mask/0001.jpg
 ```
 
+The generated mask files keep the same filename stems as the original input images.
+
+Repeat this step for the other side:
+
+```text
+Object_01/back/input/
+```
+
+which generates:
+
+```text
+Object_01/back/input_mask/
+```
+
 ### 10. Apply masks to input images
 
-Run `mask_apply.py` separately for the front side and the back side:
+This step is optional. It is used only when masked input images with black backgrounds are needed.
+
+Run `mask_apply.py`:
 
 ```bash
 python mask_apply.py
 ```
 
-For the front side, enter:
+For one side, enter:
 
 ```text
 Input folder: Object_01/front/input/
 Mask folder:  Object_01/front/input_mask/
 ```
 
-For the back side, enter:
+The script generates:
+
+```text
+Object_01/front/input_apply_mask/
+```
+
+The output images keep the original filenames, with background regions set to black.
+
+If masked images are also needed for the other side, repeat this step using:
 
 ```text
 Input folder: Object_01/back/input/
 Mask folder:  Object_01/back/input_mask/
 ```
 
-The script automatically generates:
+which generates:
 
 ```text
-Object_01/front/input_apply_mask/
 Object_01/back/input_apply_mask/
 ```
 
-The output images keep the original filenames, with background regions set to black.
+### 11. Clean the point cloud of one side
 
-### 11. Clean front-side and back-side point clouds
+Run `clear_point.py` to remove background points and reconstruction noise from the dense point cloud.
 
-Run `clear_point.py` separately for the front-side and back-side point clouds. This step projects 3D points into the image views and removes points that are inconsistent with the foreground masks.
-
-Create the output folders first:
+Create the output folder:
 
 ```bash
 mkdir Object_01/point_front
-mkdir Object_01/point_back
 ```
 
-Front side:
+For the front side, run:
 
 ```bash
 python clear_point.py \
   --input_ply Object_01/front/dense/fused.ply \
   --colmap_dir Object_01/front/sparse/0 \
   --mask_dir Object_01/front/input_mask \
-  --output_ply Object_01/point_front/points3D_clean_front.ply \
+  --output_ply Object_01/point_front/point_clean_front.ply \
   --threshold 0.5
 ```
 
-Back side:
+This step projects 3D points into the image views and keeps only the points that are sufficiently consistent with the foreground masks.
+
+The cleaned point cloud is saved as:
+
+```text
+Object_01/point_front/point_clean_front.ply
+```
+
+Then repeat the same operation for the other side:
+
+```bash
+mkdir Object_01/point_back
+```
 
 ```bash
 python clear_point.py \
   --input_ply Object_01/back/dense/fused.ply \
   --colmap_dir Object_01/back/sparse/0 \
   --mask_dir Object_01/back/input_mask \
-  --output_ply Object_01/point_back/points3D_clean_back.ply \
+  --output_ply Object_01/point_back/point_clean_back.ply \
   --threshold 0.5
 ```
 
-The cleaned point clouds are saved as:
+The cleaned back-side point cloud is saved as:
 
 ```text
-Object_01/point_front/points3D_clean_front.ply
-Object_01/point_back/points3D_clean_back.ply
+Object_01/point_back/point_clean_back.ply
 ```
 
 The `threshold` parameter controls the minimum proportion of valid views in which a 3D point must fall inside the foreground mask to be retained.
@@ -269,7 +285,9 @@ Object_01/sparse_front/0/
 Object_01/sparse_back/0/
 ```
 
-Therefore, copy the single-side sparse models to these folders before merging:
+Therefore, copy the reconstructed sparse models to these folders before merging.
+
+Create the target folders:
 
 ```bash
 mkdir Object_01/sparse_front
@@ -288,14 +306,14 @@ Copy the back-side sparse model:
 cp -r Object_01/back/sparse/0 Object_01/sparse_back/0
 ```
 
-After this step, the dataset should contain:
+After this step, the required files for merging should be:
 
 ```text
 Object_01/
 ├── point_front/
-│   └── points3D_clean_front.ply
+│   └── point_clean_front.ply
 ├── point_back/
-│   └── points3D_clean_back.ply
+│   └── point_clean_back.ply
 ├── sparse_front/
 │   └── 0/
 │       ├── cameras.bin
@@ -312,13 +330,13 @@ Each of `point_front/` and `point_back/` should contain only the final cleaned `
 
 ### 13. Merge the front and back sides
 
-After the cleaned point clouds and sparse folders are prepared, run:
+Run `together_pointcloud.py`:
 
 ```bash
 python together_pointcloud.py
 ```
 
-Then enter the artifact dataset folder:
+When prompted, enter the artifact dataset folder:
 
 ```text
 Object_01/
@@ -340,7 +358,12 @@ Object_01/point/Merged_*.ply
 Object_01/sparse/0/
 ```
 
-The file `point/Merged_*.ply` is the merged front-back point cloud of the artifact. The folder `sparse/0/` contains the merged COLMAP sparse model.
+Here:
+
+```text
+Object_01/point/Merged_*.ply  merged front-back point cloud
+Object_01/sparse/0/           merged COLMAP sparse model
+```
 
 ### 14. Final dataset structure
 
@@ -351,7 +374,7 @@ Object_01/
 ├── front/
 │   ├── input/
 │   ├── input_mask/
-│   ├── input_apply_mask/
+│   ├── input_apply_mask/        # optional
 │   ├── database.db
 │   ├── sparse/
 │   │   └── 0/
@@ -363,19 +386,19 @@ Object_01/
 ├── back/
 │   ├── input/
 │   ├── input_mask/
-│   ├── input_apply_mask/
+│   ├── input_apply_mask/        # optional
 │   ├── database.db
 │   ├── sparse/
 │   │   └── 0/
 │   │       ├── cameras.bin
 │   │       ├── images.bin
-│       └── points3D.bin
+│   │       └── points3D.bin
 │   └── dense/
 │       └── fused.ply
 ├── point_front/
-│   └── points3D_clean_front.ply
+│   └── point_clean_front.ply
 ├── point_back/
-│   └── points3D_clean_back.ply
+│   └── point_clean_back.ply
 ├── sparse_front/
 │   └── 0/
 │       ├── cameras.bin
@@ -398,16 +421,11 @@ Object_01/
 The overall workflow is:
 
 ```text
-front/input → front/sparse + front/dense/fused.ply
-back/input  → back/sparse  + back/dense/fused.ply
-
-front/input → front/input_mask → front/input_apply_mask
-back/input  → back/input_mask  → back/input_apply_mask
-
-front/dense/fused.ply + front/sparse/0 + front/input_mask → point_front
-back/dense/fused.ply  + back/sparse/0  + back/input_mask  → point_back
-
-point_front + point_back + sparse_front + sparse_back → point + sparse
+input → sparse/0 + dense/fused.ply
+input → input_mask
+input + input_mask → input_apply_mask    # optional
+dense/fused.ply + sparse/0 + input_mask → point_clean_*.ply
+point_clean_front.ply + point_clean_back.ply → Merged_*.ply
 ```
 
 
