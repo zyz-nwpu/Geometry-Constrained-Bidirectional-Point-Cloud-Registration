@@ -9,7 +9,7 @@
   </a>
 </p>
 
-This repository provides the implementation for geometry-constrained bidirectional point cloud registration of thin cultural heritage artifacts. The workflow reconstructs the front and back sides independently, extracts artifact-only geometry with semantic masks, and merges both sides under geometry-aware registration constraints.
+This repository provides the official implementation of Geometry-Constrained Bidirectional Point Cloud Registration for Thin Cultural Heritage Artifacts. The code supports double-sided reconstruction, semantic mask-guided point cloud purification, and geometry-constrained front-back registration for thin, sheet-like cultural heritage objects.
 
 ## Environment
 
