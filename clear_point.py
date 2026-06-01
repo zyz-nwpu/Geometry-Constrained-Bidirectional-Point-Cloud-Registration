@@ -25,7 +25,7 @@ def parse_args():
     parser.add_argument("--colmap_dir", required=True, type=Path)
     parser.add_argument("--mask_dir", required=True, type=Path)
     parser.add_argument("--output_ply", required=True, type=Path)
-    parser.add_argument("--threshold", default=0.5, type=float)
+    parser.add_argument("--threshold", default=0.9, type=float)
     return parser.parse_args()
 
 

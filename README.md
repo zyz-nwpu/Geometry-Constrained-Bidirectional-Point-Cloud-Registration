@@ -1,10 +1,13 @@
-# Geometry-Constrained Bidirectional Point Cloud Registration
+# Geometry-Constrained Bidirectional Point Cloud Registration For Thin Cultural Heritage Artifacts
 
 <p align="center">
-  <strong>Geometry-Constrained Bidirectional Point Cloud Registration for Thin Cultural Heritage Artifacts</strong>
+  <a href="https://zyz-nwpu.github.io/Geometry-Constrained-Bidirectional-Registration">
+    <img alt="Project" src="https://img.shields.io/badge/Project-Page-1a7f64?style=for-the-badge">
+  </a>
+  <span>
+    <img alt="Paper" src="https://img.shields.io/badge/Paper-Coming%20Soon-24292f?style=for-the-badge">
+  </span>
 </p>
-
-Project page: [here](https://zyz-nwpu.github.io/Geometry-Constrained-Bidirectional-Registration)
 
 This repository provides the implementation for geometry-constrained bidirectional point cloud registration of thin cultural heritage artifacts. The workflow reconstructs the front and back sides independently, extracts artifact-only geometry with semantic masks, and merges both sides under geometry-aware registration constraints.
 
@@ -102,7 +105,7 @@ python clear_point.py \
   --colmap_dir artifact/front/sparse/0 \
   --mask_dir artifact/front/input_mask \
   --output_ply artifact/point_front/point_clean_front.ply \
-  --threshold 0.5
+  --threshold 0.9
 ```
 
 Run the same filtering step for the back side by replacing the front-side paths with the corresponding back-side reconstruction, masks, and output point cloud.
@@ -128,4 +131,4 @@ front/back images -> dense reconstruction -> masks -> purified point clouds -> b
 
 ## Acknowledgements
 
-This project builds on Segment Anything Model 2, available [here](https://github.com/facebookresearch/sam2), and COLMAP, available [here](https://github.com/colmap/colmap).
+We gratefully acknowledge the open-source communities behind Segment Anything Model 2, available [here](https://github.com/facebookresearch/sam2), and COLMAP, available [here](https://github.com/colmap/colmap), whose tools support semantic mask generation and multi-view reconstruction in this work.
