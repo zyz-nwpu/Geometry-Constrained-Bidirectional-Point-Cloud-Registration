@@ -82,6 +82,12 @@ artifact/
 
 ## Processing
 
+The overall workflow is:
+
+```text
+front/back images -> dense reconstruction -> masks -> purified point clouds -> bidirectional registration
+```
+
 Run dense reconstruction for each side:
 
 ```bash
@@ -127,12 +133,6 @@ The final merged point cloud and sparse model are written to:
 ```text
 artifact/point/
 artifact/sparse/0/
-```
-
-The complete workflow is therefore:
-
-```text
-front/back images -> dense reconstruction -> masks -> purified point clouds -> bidirectional registration
 ```
 
 ## Acknowledgements
