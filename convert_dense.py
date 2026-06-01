@@ -5,53 +5,50 @@ import subprocess
 import sys
 import time
 from pathlib import Path
-from typing import List
 
 
 COLMAP_EXE = r"E:\3DGS\gaussian-splatting-main\3dgs_tools\colmap\bin\colmap.exe"
+VIEW_PATTERN = re.compile(r"Processing view\s+(\d+)\s*/\s*(\d+)\s+for\s+(.+)$")
 
 
-VIEW_RE = re.compile(r"Processing view\s+(\d+)\s*/\s*(\d+)\s+for\s+(.+)$")
+def format_duration(seconds):
+    seconds = max(0.0, float(seconds))
+    hours = int(seconds // 3600)
+    minutes = int((seconds % 3600) // 60)
+    secs = int(seconds % 60)
+    if hours:
+        return f"{hours:d}:{minutes:02d}:{secs:02d}"
+    return f"{minutes:d}:{secs:02d}"
 
 
-def fmt(sec: float) -> str:
-    sec = max(0.0, float(sec))
-    h = int(sec // 3600)
-    m = int((sec % 3600) // 60)
-    s = int(sec % 60)
-    return f"{h:d}:{m:02d}:{s:02d}" if h else f"{m:d}:{s:02d}"
+def print_stage(title, index, total):
+    separator = "=" * 78
+    print(f"\n{separator}\n[{index}/{total}] {title}\n{separator}")
 
 
-def print_stage(title: str, idx: int, total: int) -> None:
-    line = "=" * 78
-    print(f"\n{line}\n[{idx}/{total}] {title}\n{line}")
+def command_text(command):
+    return " ".join(f'"{item}"' if " " in item else item for item in command)
 
 
-def run_stream(cmd: List[str], cwd: Path) -> None:
-    """Run a command and stream its output without modifying parameters."""
+def run_command(command, workspace):
     print("\nCommand:")
-    print(" ".join(f'"{c}"' if " " in c else c for c in cmd))
-    p = subprocess.run(cmd, cwd=str(cwd))
-    if p.returncode != 0:
-        raise RuntimeError(f"Command failed with return code {p.returncode}.")
+    print(command_text(command))
+    process = subprocess.run(command, cwd=str(workspace))
+    if process.returncode != 0:
+        raise RuntimeError(f"Command failed with return code {process.returncode}.")
 
 
-def run_patchmatch_with_progress(cmd: List[str], cwd: Path) -> None:
-    """
-    Run patch_match_stereo and display progress by parsing COLMAP's own log line:
-    'Processing view i / N for XXXX.jpg'.
-    This does not change COLMAP computation; it only reads stdout.
-    """
+def run_patch_match(command, workspace):
     print("\nCommand:")
-    print(" ".join(f'"{c}"' if " " in c else c for c in cmd))
+    print(command_text(command))
 
-    start = time.time()
-    last_i = None
-    last_t = 0.0
+    start_time = time.time()
+    last_index = None
+    last_update = 0.0
 
-    p = subprocess.Popen(
-        cmd,
-        cwd=str(cwd),
+    process = subprocess.Popen(
+        command,
+        cwd=str(workspace),
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT,
         text=True,
@@ -59,52 +56,70 @@ def run_patchmatch_with_progress(cmd: List[str], cwd: Path) -> None:
         universal_newlines=True,
     )
 
-    assert p.stdout is not None
-    for line in p.stdout:
+    if process.stdout is None:
+        raise RuntimeError("Unable to read COLMAP output.")
+
+    for line in process.stdout:
         line = line.rstrip("\n")
         print(line)
+        match = VIEW_PATTERN.search(line)
+        if not match:
+            continue
 
-        m = VIEW_RE.search(line)
-        if m:
-            i = int(m.group(1))
-            n = int(m.group(2))
-            fname = m.group(3).strip()
+        index = int(match.group(1))
+        total = int(match.group(2))
+        current = match.group(3).strip()
+        now = time.time()
 
-            now = time.time()
-            # throttle progress printing
-            if i != last_i and (now - last_t) >= 0.2:
-                elapsed = now - start
-                frac = i / max(1, n)
-                eta = (elapsed / frac - elapsed) if frac > 1e-9 else float("inf")
-                print(f"[PatchMatch] {i}/{n}  ({frac*100:6.2f}%)  elapsed={fmt(elapsed)}  eta={fmt(eta)}  current={fname}")
-                last_i = i
-                last_t = now
+        if index != last_index and now - last_update >= 0.2:
+            elapsed = now - start_time
+            fraction = index / max(1, total)
+            remaining = elapsed / fraction - elapsed if fraction > 1e-9 else 0.0
+            print(
+                f"[PatchMatch] {index}/{total} "
+                f"({fraction * 100:6.2f}%) "
+                f"elapsed={format_duration(elapsed)} "
+                f"eta={format_duration(remaining)} "
+                f"current={current}"
+            )
+            last_index = index
+            last_update = now
 
-    rc = p.wait()
-    if rc != 0:
-        raise RuntimeError(f"patch_match_stereo failed with return code {rc}.")
+    return_code = process.wait()
+    if return_code != 0:
+        raise RuntimeError(f"patch_match_stereo failed with return code {return_code}.")
 
-    print(f"[PatchMatch] completed in {fmt(time.time() - start)}.")
+    print(f"[PatchMatch] completed in {format_duration(time.time() - start_time)}.")
 
 
-def infer_sparse_model(sparse_dir: Path) -> Path:
-    # mapper usually outputs sparse/0, sparse/1, ...
-    models = sorted([p for p in sparse_dir.iterdir() if p.is_dir()], key=lambda p: p.name)
+def infer_sparse_model(sparse_dir):
+    models = sorted(path for path in sparse_dir.iterdir() if path.is_dir())
     if not models:
-        raise FileNotFoundError(f"No sparse model directory found in: {sparse_dir}")
+        raise FileNotFoundError(f"No sparse model directory found in {sparse_dir}")
     return models[0]
 
 
-def main():
-    parser = argparse.ArgumentParser(
-        description="COLMAP pipeline (default settings): images -> sparse -> dense -> fused.ply"
-    )
-    parser.add_argument("--images", required=True, help=r'Images directory, e.g. E:\...\images')
-    parser.add_argument("--overwrite", action="store_true", help="Delete database/sparse/dense and rerun")
-    args = parser.parse_args()
+def parse_args():
+    parser = argparse.ArgumentParser(description="Run COLMAP sparse and dense reconstruction.")
+    parser.add_argument("--images", required=True, type=Path)
+    parser.add_argument("--overwrite", action="store_true")
+    return parser.parse_args()
 
-    images_dir = Path(args.images).resolve()
-    if not images_dir.exists() or not images_dir.is_dir():
+
+def remove_previous_outputs(database, sparse_dir, dense_dir):
+    if database.exists():
+        database.unlink()
+    if sparse_dir.exists():
+        shutil.rmtree(sparse_dir)
+    if dense_dir.exists():
+        shutil.rmtree(dense_dir)
+
+
+def main():
+    args = parse_args()
+    images_dir = args.images.resolve()
+
+    if not images_dir.is_dir():
         raise FileNotFoundError(f"Images directory not found: {images_dir}")
 
     workspace = images_dir.parent
@@ -113,81 +128,91 @@ def main():
     dense_dir = workspace / "dense"
     fused_ply = dense_dir / "fused.ply"
 
-    # optional cleanup
     if args.overwrite:
-        if database.exists():
-            database.unlink()
-        if sparse_dir.exists():
-            shutil.rmtree(sparse_dir)
-        if dense_dir.exists():
-            shutil.rmtree(dense_dir)
+        remove_previous_outputs(database, sparse_dir, dense_dir)
 
     sparse_dir.mkdir(parents=True, exist_ok=True)
 
-    # Total stages for high-level progress
-    # SfM: 3 stages, Dense: 3 stages
-    TOTAL = 6
-    stage = 0
+    stages = [
+        (
+            "SfM feature extraction",
+            [COLMAP_EXE, "feature_extractor", "--database_path", str(database), "--image_path", str(images_dir)],
+            run_command,
+        ),
+        (
+            "SfM exhaustive matching",
+            [COLMAP_EXE, "exhaustive_matcher", "--database_path", str(database)],
+            run_command,
+        ),
+        (
+            "SfM sparse reconstruction",
+            [
+                COLMAP_EXE,
+                "mapper",
+                "--database_path",
+                str(database),
+                "--image_path",
+                str(images_dir),
+                "--output_path",
+                str(sparse_dir),
+            ],
+            run_command,
+        ),
+    ]
 
-    t0 = time.time()
+    start_time = time.time()
+    total_stages = 6
 
-    # 1) feature_extractor (DEFAULT settings)
-    stage += 1
-    print_stage("SfM: feature extraction (default settings)", stage, TOTAL)
-    run_stream([COLMAP_EXE, "feature_extractor",
-                "--database_path", str(database),
-                "--image_path", str(images_dir)], cwd=workspace)
-
-    # 2) exhaustive_matcher (DEFAULT settings)
-    stage += 1
-    print_stage("SfM: exhaustive matching (default settings)", stage, TOTAL)
-    run_stream([COLMAP_EXE, "exhaustive_matcher",
-                "--database_path", str(database)], cwd=workspace)
-
-    # 3) mapper (DEFAULT settings)
-    stage += 1
-    print_stage("SfM: sparse reconstruction (mapper, default settings)", stage, TOTAL)
-    run_stream([COLMAP_EXE, "mapper",
-                "--database_path", str(database),
-                "--image_path", str(images_dir),
-                "--output_path", str(sparse_dir)], cwd=workspace)
+    for index, (title, command, runner) in enumerate(stages, start=1):
+        print_stage(title, index, total_stages)
+        runner(command, workspace)
 
     sparse_model = infer_sparse_model(sparse_dir)
 
-    # 4) image_undistorter (DEFAULT settings)
-    stage += 1
-    print_stage("MVS: image undistortion (default settings)", stage, TOTAL)
-    run_stream([COLMAP_EXE, "image_undistorter",
-                "--image_path", str(images_dir),
-                "--input_path", str(sparse_model),
-                "--output_path", str(dense_dir)], cwd=workspace)
+    dense_stages = [
+        (
+            "MVS image undistortion",
+            [
+                COLMAP_EXE,
+                "image_undistorter",
+                "--image_path",
+                str(images_dir),
+                "--input_path",
+                str(sparse_model),
+                "--output_path",
+                str(dense_dir),
+            ],
+            run_command,
+        ),
+        (
+            "MVS PatchMatch stereo",
+            [COLMAP_EXE, "patch_match_stereo", "--workspace_path", str(dense_dir)],
+            run_patch_match,
+        ),
+        (
+            "MVS stereo fusion",
+            [COLMAP_EXE, "stereo_fusion", "--workspace_path", str(dense_dir), "--output_path", str(fused_ply)],
+            run_command,
+        ),
+    ]
 
-    # 5) patch_match_stereo (DEFAULT settings, progress parsed from stdout)
-    stage += 1
-    print_stage("MVS: PatchMatch stereo (default settings, progress from COLMAP output)", stage, TOTAL)
-    run_patchmatch_with_progress([COLMAP_EXE, "patch_match_stereo",
-                                  "--workspace_path", str(dense_dir)], cwd=workspace)
-
-    # 6) stereo_fusion (DEFAULT settings)
-    stage += 1
-    print_stage("MVS: stereo fusion -> fused point cloud (default settings)", stage, TOTAL)
-    run_stream([COLMAP_EXE, "stereo_fusion",
-                "--workspace_path", str(dense_dir),
-                "--output_path", str(fused_ply)], cwd=workspace)
+    for offset, (title, command, runner) in enumerate(dense_stages, start=4):
+        print_stage(title, offset, total_stages)
+        runner(command, workspace)
 
     if not fused_ply.exists():
         raise FileNotFoundError(f"Expected output not found: {fused_ply}")
 
     print("\nResult")
-    print(f"  workspace : {workspace}")
-    print(f"  sparse    : {sparse_model}")
-    print(f"  dense ply : {fused_ply}")
-    print(f"  runtime   : {fmt(time.time() - t0)}")
+    print(f"workspace : {workspace}")
+    print(f"sparse    : {sparse_model}")
+    print(f"dense ply : {fused_ply}")
+    print(f"runtime   : {format_duration(time.time() - start_time)}")
 
 
 if __name__ == "__main__":
     try:
         main()
-    except Exception as e:
-        print("\nError:", e)
+    except Exception as error:
+        print(f"\nError: {error}")
         sys.exit(1)

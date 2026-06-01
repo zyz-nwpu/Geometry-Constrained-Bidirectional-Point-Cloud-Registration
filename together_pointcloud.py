@@ -1,3 +1,4 @@
+import argparse
 import os
 import copy
 import struct
@@ -129,10 +130,10 @@ def run_pointcloud_merge(front_ply_path: str, back_ply_path: str, out_dir: str):
     z_offset = 0.5 * thick
 
     hypotheses = [
-        ("I", np.eye(3)),
-        ("Rx(pi)", o3d.geometry.get_rotation_matrix_from_xyz((np.pi, 0, 0))),
-        ("Ry(pi)", o3d.geometry.get_rotation_matrix_from_xyz((0, np.pi, 0))),
-        ("Rz(pi)", o3d.geometry.get_rotation_matrix_from_xyz((0, 0, np.pi))),
+        ("identity", np.eye(3)),
+        ("rotation_x_pi", o3d.geometry.get_rotation_matrix_from_xyz((np.pi, 0, 0))),
+        ("rotation_y_pi", o3d.geometry.get_rotation_matrix_from_xyz((0, np.pi, 0))),
+        ("rotation_z_pi", o3d.geometry.get_rotation_matrix_from_xyz((0, 0, np.pi))),
     ]
 
     best = {"fitness": -1.0, "tag": None, "R": None, "T_icp": None}
@@ -344,9 +345,9 @@ def run_sparse_merge(front_dir_0: str, back_dir_0: str, out_dir_0: str, T_rel: n
     Rf, tf = T_front[:3, :3], T_front[:3, 3]
     Rb, tb = T_back[:3, :3], T_back[:3, 3]
 
-    OFF_CAM = 5_000
-    OFF_IMG = 20_000
-    OFF_PT = 50_000_000
+    camera_id_offset = 5_000
+    image_id_offset = 20_000
+    point_id_offset = 50_000_000
 
     merged_cams = {}
     merged_imgs = {}
@@ -356,7 +357,7 @@ def run_sparse_merge(front_dir_0: str, back_dir_0: str, out_dir_0: str, T_rel: n
         merged_cams[cid] = cam
 
     for cid, cam in cams_b.items():
-        new_cid = cid + OFF_CAM
+        new_cid = cid + camera_id_offset
         merged_cams[new_cid] = Camera(new_cid, cam.model, cam.width, cam.height, cam.params)
 
     for iid, img in imgs_f.items():
@@ -373,12 +374,12 @@ def run_sparse_merge(front_dir_0: str, back_dir_0: str, out_dir_0: str, T_rel: n
 
     INVALID_ID = np.uint64(18446744073709551615)
     for iid, img in imgs_b.items():
-        new_iid = iid + OFF_IMG
-        new_cid = img.camera_id + OFF_CAM
+        new_iid = iid + image_id_offset
+        new_cid = img.camera_id + camera_id_offset
         qvec_new, tvec_new = transform_colmap_pose(img.qvec, img.tvec, T_back)
         p3d_ids = img.point3D_ids.copy()
         valid_mask = p3d_ids != INVALID_ID
-        p3d_ids[valid_mask] += OFF_PT
+        p3d_ids[valid_mask] += point_id_offset
         merged_imgs[new_iid] = Image(
             id=new_iid,
             qvec=qvec_new,
@@ -401,9 +402,9 @@ def run_sparse_merge(front_dir_0: str, back_dir_0: str, out_dir_0: str, T_rel: n
         )
 
     for pid, pt in pts_b.items():
-        new_pid = pid + OFF_PT
+        new_pid = pid + point_id_offset
         xyz_new = Rb @ pt.xyz + tb
-        new_image_ids = pt.image_ids + OFF_IMG
+        new_image_ids = pt.image_ids + image_id_offset
         merged_pts[new_pid] = Point3D(
             id=new_pid,
             xyz=xyz_new,
@@ -418,8 +419,15 @@ def run_sparse_merge(front_dir_0: str, back_dir_0: str, out_dir_0: str, T_rel: n
     write_points3D_binary(merged_pts, os.path.join(out_dir_0, "points3D.bin"))
 
 
+def parse_args():
+    parser = argparse.ArgumentParser(description="Merge front-side and back-side point clouds and sparse COLMAP models.")
+    parser.add_argument("--dataset", type=str)
+    return parser.parse_args()
+
+
 def main():
-    base = _strip_path(input("Unified_Dataset 路径: "))
+    args = parse_args()
+    base = _strip_path(args.dataset) if args.dataset else _strip_path(input("Dataset directory: "))
     point_front_dir = os.path.join(base, "point_front")
     point_back_dir = os.path.join(base, "point_back")
     point_out_dir = os.path.join(base, "point")
