@@ -138,3 +138,7 @@ artifact/sparse/0/
 ## Acknowledgements
 
 We gratefully acknowledge the open-source communities behind Segment Anything Model 2, available [here](https://github.com/facebookresearch/sam2), and COLMAP, available [here](https://github.com/colmap/colmap), whose tools support semantic mask generation and multi-view reconstruction in this work.
+
+## License
+
+This project is released under the MIT License.
