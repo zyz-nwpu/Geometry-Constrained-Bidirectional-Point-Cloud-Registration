@@ -70,23 +70,7 @@ artifact/
   sparse_back/0/
 ```
 
-## Scripts
-
-| Script | Purpose |
-| --- | --- |
-| `convert_dense.py` | Runs COLMAP sparse reconstruction and dense fusion for one image sequence. |
-| `mask_get.py` | Generates foreground masks with Segment Anything Model 2. |
-| `mask_apply.py` | Applies foreground masks to images when masked image sequences are required. |
-| `clear_point.py` | Filters dense point clouds by projecting 3D points into mask-validated image views. |
-| `together_pointcloud.py` | Registers and merges the front-side and back-side point clouds and sparse models. |
-
 ## Processing
-
-The overall workflow is:
-
-```text
-front/back images -> dense reconstruction -> masks -> purified point clouds -> bidirectional registration
-```
 
 Run dense reconstruction for each side:
 
