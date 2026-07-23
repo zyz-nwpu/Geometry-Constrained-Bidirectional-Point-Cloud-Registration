@@ -1,0 +1,30 @@
+cff-version: 1.2.0
+message: "If you use GCBPCR in your research, please cite the paper below."
+type: software
+title: "GCBPCR: Geometry-Constrained Bidirectional Point Cloud Registration"
+authors:
+  - family-names: Zhang
+    given-names: Yuezhe
+  - family-names: Wei
+    given-names: Lei
+  - family-names: Du
+    given-names: Jingnan
+  - family-names: Wan
+    given-names: Shuai
+license: MIT
+repository-code: "https://github.com/zyz-nwpu/Geometry-Constrained-Bidirectional-Point-Cloud-Registration"
+url: "https://zyz-nwpu.github.io/Geometry-Constrained-Bidirectional-Point-Cloud-Registration/"
+preferred-citation:
+  type: article
+  title: "Geometry-Constrained Bidirectional Point Cloud Registration for Thin, Sheet-Like Heritage Artifacts"
+  authors:
+    - family-names: Zhang
+      given-names: Yuezhe
+    - family-names: Wei
+      given-names: Lei
+    - family-names: Du
+      given-names: Jingnan
+    - family-names: Wan
+      given-names: Shuai
+  year: 2026
+  notes: "Manuscript submitted for publication"

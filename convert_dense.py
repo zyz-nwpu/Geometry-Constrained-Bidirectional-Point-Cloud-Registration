@@ -1,4 +1,5 @@
 import argparse
+import os
 import re
 import shutil
 import subprocess
@@ -7,7 +8,6 @@ import time
 from pathlib import Path
 
 
-COLMAP_EXE = r"E:\3DGS\gaussian-splatting-main\3dgs_tools\colmap\bin\colmap.exe"
 VIEW_PATTERN = re.compile(r"Processing view\s+(\d+)\s*/\s*(\d+)\s+for\s+(.+)$")
 
 
@@ -102,8 +102,30 @@ def infer_sparse_model(sparse_dir):
 def parse_args():
     parser = argparse.ArgumentParser(description="Run COLMAP sparse and dense reconstruction.")
     parser.add_argument("--images", required=True, type=Path)
+    parser.add_argument(
+        "--colmap",
+        default=os.environ.get("COLMAP_EXE") or shutil.which("colmap"),
+        help="COLMAP executable. Defaults to COLMAP_EXE or the colmap command on PATH.",
+    )
     parser.add_argument("--overwrite", action="store_true")
     return parser.parse_args()
+
+
+def resolve_colmap_executable(value):
+    if not value:
+        raise FileNotFoundError(
+            "COLMAP was not found. Add it to PATH, set COLMAP_EXE, or pass --colmap."
+        )
+
+    candidate = Path(value).expanduser()
+    if candidate.is_file():
+        return str(candidate.resolve())
+
+    executable = shutil.which(str(value))
+    if executable:
+        return executable
+
+    raise FileNotFoundError(f"COLMAP executable not found: {value}")
 
 
 def remove_previous_outputs(database, sparse_dir, dense_dir):
@@ -118,6 +140,7 @@ def remove_previous_outputs(database, sparse_dir, dense_dir):
 def main():
     args = parse_args()
     images_dir = args.images.resolve()
+    colmap_exe = resolve_colmap_executable(args.colmap)
 
     if not images_dir.is_dir():
         raise FileNotFoundError(f"Images directory not found: {images_dir}")
@@ -136,18 +159,18 @@ def main():
     stages = [
         (
             "SfM feature extraction",
-            [COLMAP_EXE, "feature_extractor", "--database_path", str(database), "--image_path", str(images_dir)],
+            [colmap_exe, "feature_extractor", "--database_path", str(database), "--image_path", str(images_dir)],
             run_command,
         ),
         (
             "SfM exhaustive matching",
-            [COLMAP_EXE, "exhaustive_matcher", "--database_path", str(database)],
+            [colmap_exe, "exhaustive_matcher", "--database_path", str(database)],
             run_command,
         ),
         (
             "SfM sparse reconstruction",
             [
-                COLMAP_EXE,
+                colmap_exe,
                 "mapper",
                 "--database_path",
                 str(database),
@@ -173,7 +196,7 @@ def main():
         (
             "MVS image undistortion",
             [
-                COLMAP_EXE,
+                colmap_exe,
                 "image_undistorter",
                 "--image_path",
                 str(images_dir),
@@ -186,12 +209,12 @@ def main():
         ),
         (
             "MVS PatchMatch stereo",
-            [COLMAP_EXE, "patch_match_stereo", "--workspace_path", str(dense_dir)],
+            [colmap_exe, "patch_match_stereo", "--workspace_path", str(dense_dir)],
             run_patch_match,
         ),
         (
             "MVS stereo fusion",
-            [COLMAP_EXE, "stereo_fusion", "--workspace_path", str(dense_dir), "--output_path", str(fused_ply)],
+            [colmap_exe, "stereo_fusion", "--workspace_path", str(dense_dir), "--output_path", str(fused_ply)],
             run_command,
         ),
     ]

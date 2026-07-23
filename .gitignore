@@ -1,0 +1,15 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.venv/
+venv/
+
+# Local checkpoints and experiment outputs
+third_party/sam2/checkpoints/*.pt
+database.db
+dense/
+sparse/
+input_mask/
+input_masked/
+point/
