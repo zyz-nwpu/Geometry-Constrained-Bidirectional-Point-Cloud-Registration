@@ -1,0 +1,6 @@
+[submodule "third_party/sam2"]
+	path = third_party/sam2
+	url = https://github.com/facebookresearch/sam2.git
+[submodule "third_party/colmap"]
+	path = third_party/colmap
+	url = https://github.com/colmap/colmap.git
