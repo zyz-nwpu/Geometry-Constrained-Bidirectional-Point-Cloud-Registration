@@ -6,6 +6,8 @@
   </a>
 </p>
 
+NEWS:🎉 Our paper, **“Geometry-Constrained Bidirectional Point Cloud Registration for Thin, Sheet-Like Heritage Artifacts,”** has been accepted for publication in the **ACM Journal on Computing and Cultural Heritage (JOCCH)**!
+
 This repository provides the official implementation of Geometry-Constrained Bidirectional Point Cloud Registration (GCBPCR) for Thin, Sheet-Like Heritage Artifacts. The code supports double-sided reconstruction, semantic mask-guided point cloud purification, and geometry-constrained front-back registration for thin, sheet-like heritage objects.
 
 ## Environment
